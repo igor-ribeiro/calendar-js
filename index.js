@@ -20,13 +20,13 @@ module.exports = {
       throw new RangeError('The first year argument cannot be greater than the second');
     }
 
-    var years = [ from ];
+    var years = [ from.toString() ];
     var totalYears = to - from + 1;
 
     while (years.length < totalYears) {
-      var last = years[years.length - 1];
+      var year = parseInt(years[years.length - 1], 10) + 1;
 
-      years.push(last + 1);
+      years.push(year.toString());
     }
 
     return years;

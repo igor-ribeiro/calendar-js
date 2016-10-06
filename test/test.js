@@ -46,9 +46,9 @@ describe('#years', function() {
     expect(years.length).to.equal(6);
   });
 
-  it('should return [ 2010, 2011, 2012 ] when called with (2010, 2012)', function() {
+  it('should return [ "2010", "2011", "2012" ] when called with (2010, 2012)', function() {
     var years = calendar.years(2010, 2012);
-    var expectedYears = [ 2010, 2011, 2012 ];
+    var expectedYears = [ '2010', '2011', '2012' ];
 
     expect(years).to.eql(expectedYears);
   });
