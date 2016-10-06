@@ -1,6 +1,6 @@
 {
   "name": "calendar-js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pure JS calendar generator",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/igor-ribeiro/calendarjs.git"
+    "url": "git+https://github.com/igor-ribeiro/calendar-js.git"
   },
   "keywords": [
     "calendar",
@@ -18,9 +18,9 @@
   "author": "Igor Ribeiro <igor.ribeiro.plus@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/igor-ribeiro/calendarjs/issues"
+    "url": "https://github.com/igor-ribeiro/calendar-js/issues"
   },
-  "homepage": "https://github.com/igor-ribeiro/calendarjs#readme",
+  "homepage": "https://github.com/igor-ribeiro/calendar-js#readme",
   "engines": {
     "node": ">=4.6.0"
   },
