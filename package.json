@@ -1,5 +1,5 @@
 {
-  "name": "calendarjs",
+  "name": "calendar-js",
   "version": "0.0.1",
   "description": "Pure JS calendar generator",
   "main": "index.js",
