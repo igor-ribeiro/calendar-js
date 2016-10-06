@@ -1,4 +1,4 @@
-# Calendar.js
+# Calendar.js (Work In Progress)
 Pure JS calendar library
 ## Motivation
 I needed a date-picker component for a VueJS project, and I found it! But, one has too many dependencies, and the styles of others are too coupled with Bootstrap or Material Design or whatever.
