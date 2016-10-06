@@ -26,12 +26,6 @@ describe('#months', function() {
 });
 
 describe('#monthsAbbr', function() {
-  it('should have length of 12', function() {
-    var monthsAbbr = calendar.monthsAbbr();
-
-    expect(monthsAbbr.length).to.equal(12);
-  });
-
   it('should return all months names abbreviated', function() {
     var monthsAbbr = calendar.monthsAbbr();
 
