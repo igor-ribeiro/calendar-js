@@ -34,19 +34,19 @@ describe('#monthsAbbr', function() {
 });
 
 describe('#years', function() {
-  it('should throw an error if the first year is greater than the second', function() {
+  it('should throw a RangeError if the first argument is greater than the second', function() {
     var years = calendar.years.bind(null, 2016, 2014);
 
     expect(years).to.throw(RangeError);
   });
 
-  it('should return 6 years when called with (2010, 2015)', function() {
+  it('should return an array with 6 items when arguments are (2010, 2015)', function() {
     var years = calendar.years(2010, 2015);
 
     expect(years.length).to.equal(6);
   });
 
-  it('should return [ "2010", "2011", "2012" ] when called with (2010, 2012)', function() {
+  it('should return [ "2010", "2011", "2012" ] when arguments are (2010, 2012)', function() {
     var years = calendar.years(2010, 2012);
     var expectedYears = [ '2010', '2011', '2012' ];
 
@@ -55,7 +55,7 @@ describe('#years', function() {
 });
 
 describe('#yearsAbbr', function() {
-  it('should return [ "99", "00", "01" ] when called with (2999, 3001)', function() {
+  it('should return [ "99", "00", "01" ] when arguments are (2999, 3001)', function() {
     var years = calendar.yearsAbbr(2999, 3001);
     var expectedYears = [ '99', '00', '01' ];
 
@@ -71,7 +71,7 @@ describe('#locale', function() {
     expect(locale).to.equal(expectedLocale);
   });
 
-  it('should update the locale if called with argument', function() {
+  it('should update locale if called with a valid argument', function() {
     var locale = calendar.locale('pt-br').locale();
     var expectedLocale = 'pt-br';
 
@@ -85,7 +85,7 @@ describe('#locale', function() {
     expect(locale).to.equal(expectedLocale);
   });
 
-  it('should reset to default locale if argument is and empty string', function() {
+  it('should reset to default locale if argument is an empty string', function() {
     var locale = calendar.locale('').locale();
     var expectedLocale = 'en';
 
