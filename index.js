@@ -16,4 +16,21 @@ module.exports = {
   monthsAbbr: function() {
     return monthsAbbr;
   },
+
+  years: function(from, to) {
+    if (from > to) {
+      throw new RangeError('The first year argument cannot be greater than the second');
+    }
+
+    var years = [ from ];
+    var totalYears = to - from + 1;
+
+    while (years.length < totalYears) {
+      var last = years[years.length - 1];
+
+      years.push(last + 1);
+    }
+
+    return years;
+  },
 };

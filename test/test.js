@@ -38,3 +38,24 @@ describe('#monthsAbbr', function() {
     expect(monthsAbbr).to.eql(expectedMonthsAbbr);
   });
 });
+
+describe('#years', function() {
+  it('should throw an error if the first year is greater than the second', function() {
+    var years = calendar.years.bind(null, 2016, 2014);
+
+    expect(years).to.throw(RangeError);
+  });
+
+  it('should return 6 years when called with (2010, 2015)', function() {
+    var years = calendar.years(2010, 2015);
+
+    expect(years.length).to.equal(6);
+  });
+
+  it('should return [ 2010, 2011, 2012 ] when called with (2010, 2012)', function() {
+    var years = calendar.years(2010, 2012);
+    var expectedYears = [ 2010, 2011, 2012 ];
+
+    expect(years).to.eql(expectedYears);
+  });
+});
