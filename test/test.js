@@ -59,3 +59,12 @@ describe('#years', function() {
     expect(years).to.eql(expectedYears);
   });
 });
+
+describe('#yearsAbbr', function() {
+  it('should return [ "99", "00", "01" ] when called with (2999, 3001)', function() {
+    var years = calendar.yearsAbbr(2999, 3001);
+    var expectedYears = [ '99', '00', '01' ];
+
+    expect(years).to.eql(expectedYears);
+  });
+});

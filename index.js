@@ -33,4 +33,10 @@ module.exports = {
 
     return years;
   },
+
+  yearsAbbr: function (from, to) {
+    return this.years(from, to).map(function(year) {
+      return year.toString().substring(2);
+    });
+  },
 };
