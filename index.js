@@ -4,7 +4,31 @@ var months = [
   'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',
 ];
 
+var DEFAULT_LOCALE = 'en';
+
 module.exports = {
+  _locale: 'en',
+
+  locale: function(locale) {
+    if (typeof locale === 'string') {
+      this._locale = locale ? locale : DEFAULT_LOCALE;
+
+      return this;
+    }
+
+    if (typeof locale === 'boolean' && ! locale) {
+      this._locale = DEFAULT_LOCALE;
+
+      return this;
+    }
+
+    if (locale === undefined) {
+      return this._locale;
+    }
+
+    throw new TypeError('Invalid locale argument');
+  },
+
   months: function() {
     return months;
   },

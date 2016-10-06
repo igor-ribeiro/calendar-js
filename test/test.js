@@ -62,3 +62,43 @@ describe('#yearsAbbr', function() {
     expect(years).to.eql(expectedYears);
   });
 });
+
+describe('#locale', function() {
+  it('should return the default locale at first', function() {
+    var locale = calendar.locale();
+    var expectedLocale = 'en';
+
+    expect(locale).to.equal(expectedLocale);
+  });
+
+  it('should update the locale if called with argument', function() {
+    var locale = calendar.locale('pt-br').locale();
+    var expectedLocale = 'pt-br';
+
+    expect(locale).to.equal(expectedLocale);
+  });
+
+  it('should reset to default locale if argument is false', function() {
+    var locale = calendar.locale(false).locale();
+    var expectedLocale = 'en';
+
+    expect(locale).to.equal(expectedLocale);
+  });
+
+  it('should reset to default locale if argument is and empty string', function() {
+    var locale = calendar.locale('').locale();
+    var expectedLocale = 'en';
+
+    expect(locale).to.equal(expectedLocale);
+  });
+
+  it('should throw TypeError if an invalid argument is passed', function() {
+    var locale1 = function () { calendar.locale(1) };
+    var locale2 = function () { calendar.locale(null) };
+    var locale3 = function () { calendar.locale(true) };
+
+    expect(locale1).to.throw(TypeError);
+    expect(locale2).to.throw(TypeError);
+    expect(locale3).to.throw(TypeError);
+  });
+});
