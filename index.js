@@ -1,5 +1,7 @@
 'use strict';
 
+var InvalidMonthError = require('./src/errors/InvalidMonthError');
+
 var months = [
   'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',
 ];
@@ -64,5 +66,22 @@ module.exports = {
     return (years.length > 1)
       ? years
       : years[0];
+  },
+
+  of: function(year, month) {
+    if (month < 0 || month > 11) {
+      throw new InvalidMonthError('Month should be beetwen 0 and 11');
+    }
+
+    if (typeof year !== 'number' || typeof month !== 'number') {
+      throw new Error('Arguments should be numbers');
+    }
+
+    return {
+      year: year.toString(),
+      yearAbbr: this.yearsAbbr(year),
+      month: this.months()[month],
+      monthAbbr: this.monthsAbbr()[month],
+    };
   },
 };

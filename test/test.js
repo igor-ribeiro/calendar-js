@@ -1,6 +1,8 @@
 'use strict';
 
 var expect = require('chai').expect;
+
+var InvalidMonthError = require('./../src/errors/InvalidMonthError');
 var calendar = require('./../index');
 
 var expectedMonths = [
@@ -107,5 +109,33 @@ describe('#locale', function() {
     expect(locale1).to.throw(TypeError);
     expect(locale2).to.throw(TypeError);
     expect(locale3).to.throw(TypeError);
+  });
+});
+
+describe('#of', function() {
+  it('should throw InvalidMonthError when an invalid month is passed', function() {
+    var calendar1 = function () { calendar.of(2016, 12) };
+
+    expect(calendar1).to.throw(InvalidMonthError);
+  });
+
+  it('should accept only numbers as arguments', function() {
+    var calendar1 = function() { calendar.of('2016', '11') };
+
+    expect(calendar1).to.throw(Error);
+  });
+
+  it('should return the year and the yearAbbr', function() {
+    var calendar1 = calendar.of(2016, 0);
+
+    expect(calendar1).to.have.property('year', '2016');
+    expect(calendar1).to.have.property('yearAbbr', '16');
+  });
+
+  it('should return the month and the monthAbbr', function() {
+    var calendar1 = calendar.of(2016, 0);
+
+    expect(calendar1).to.have.property('month', 'January');
+    expect(calendar1).to.have.property('monthAbbr', 'Jan');
   });
 });
