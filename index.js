@@ -57,8 +57,12 @@ module.exports = {
   },
 
   yearsAbbr: function (from, to) {
-    return this.years(from, to).map(function(year) {
+    var years = this.years(from, to).map(function(year) {
       return year.toString().substring(2);
     });
+
+    return (years.length > 1)
+      ? years
+      : years[0];
   },
 };

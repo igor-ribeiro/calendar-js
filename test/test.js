@@ -61,6 +61,13 @@ describe('#yearsAbbr', function() {
 
     expect(years).to.eql(expectedYears);
   });
+
+  it('should accept only one argument', function() {
+    var year = calendar.yearsAbbr(2016);
+    var expectedYear = '16';
+
+    expect(year).to.equal(expectedYear);
+  });
 });
 
 describe('#locale', function() {
