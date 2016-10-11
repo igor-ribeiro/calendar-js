@@ -13,7 +13,7 @@ var expectedMonthsAbbr = [
   'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
 ];
 
-describe('#months', function() {
+describe('#months()', function() {
   it('should have 12 months', function() {
     var months = calendar.months();
 
@@ -27,7 +27,7 @@ describe('#months', function() {
   })
 });
 
-describe('#monthsAbbr', function() {
+describe('#monthsAbbr()', function() {
   it('should return all months names abbreviated', function() {
     var monthsAbbr = calendar.monthsAbbr();
 
@@ -35,7 +35,7 @@ describe('#monthsAbbr', function() {
   });
 });
 
-describe('#years', function() {
+describe('#years()', function() {
   it('should throw a RangeError if the first argument is greater than the second', function() {
     var years = calendar.years.bind(null, 2016, 2014);
 
@@ -56,7 +56,7 @@ describe('#years', function() {
   });
 });
 
-describe('#yearsAbbr', function() {
+describe('#yearsAbbr()', function() {
   it('should return [ "99", "00", "01" ] when arguments are (2999, 3001)', function() {
     var years = calendar.yearsAbbr(2999, 3001);
     var expectedYears = [ '99', '00', '01' ];
@@ -72,7 +72,7 @@ describe('#yearsAbbr', function() {
   });
 });
 
-describe('#locale', function() {
+describe('#locale()', function() {
   it('should return the default locale at first', function() {
     var locale = calendar.locale();
     var expectedLocale = 'en';
@@ -112,7 +112,7 @@ describe('#locale', function() {
   });
 });
 
-describe('#of', function() {
+describe('#of()', function() {
   it('should throw InvalidMonthError when an invalid month is passed', function() {
     var calendar1 = function () { calendar.of(2016, 12) };
 
