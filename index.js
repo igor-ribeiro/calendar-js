@@ -9,7 +9,7 @@ var months = [
 var DEFAULT_LOCALE = 'en';
 
 module.exports = {
-  _locale: 'en',
+  _locale: DEFAULT_LOCALE,
 
   locale: function(locale) {
     if (typeof locale === 'string') {
