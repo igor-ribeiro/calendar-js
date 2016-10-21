@@ -6,6 +6,16 @@ var months = [
   'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',
 ];
 
+var _weekdays = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+];
+
 var DEFAULT_LOCALE = 'en';
 
 module.exports = {
@@ -58,7 +68,7 @@ module.exports = {
     return years;
   },
 
-  yearsAbbr: function (from, to) {
+  yearsAbbr: function(from, to) {
     var years = this.years(from, to).map(function(year) {
       return year.toString().substring(2);
     });
@@ -66,6 +76,10 @@ module.exports = {
     return (years.length > 1)
       ? years
       : years[0];
+  },
+
+  weekdays: function() {
+    return _weekdays;
   },
 
   of: function(year, month) {
