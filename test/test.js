@@ -14,13 +14,13 @@ var expectedMonthsAbbr = [
 ];
 
 describe('#months()', function() {
-  it('should have 12 months', function() {
+  it('has 12 months', function() {
     var months = calendar.months();
 
     expect(months.length).to.equal(12);
   });
 
-  it('should return all the months names', function() {
+  it('returns all the months names', function() {
     var months = calendar.months();
 
     expect(months).to.eql(expectedMonths);
@@ -28,7 +28,7 @@ describe('#months()', function() {
 });
 
 describe('#monthsAbbr()', function() {
-  it('should return all months names abbreviated', function() {
+  it('returns all months names abbreviated', function() {
     var monthsAbbr = calendar.monthsAbbr();
 
     expect(monthsAbbr).to.eql(expectedMonthsAbbr);
@@ -36,19 +36,19 @@ describe('#monthsAbbr()', function() {
 });
 
 describe('#years()', function() {
-  it('should throw a RangeError if the first argument is greater than the second', function() {
+  it('throws a RangeError if the first argument is greater than the second', function() {
     var years = calendar.years.bind(null, 2016, 2014);
 
     expect(years).to.throw(RangeError);
   });
 
-  it('should return an array with 6 items when arguments are (2010, 2015)', function() {
+  it('returns an array with 6 items when arguments are (2010, 2015)', function() {
     var years = calendar.years(2010, 2015);
 
     expect(years.length).to.equal(6);
   });
 
-  it('should return [ "2010", "2011", "2012" ] when arguments are (2010, 2012)', function() {
+  it('returns [ "2010", "2011", "2012" ] when arguments are (2010, 2012)', function() {
     var years = calendar.years(2010, 2012);
     var expectedYears = [ '2010', '2011', '2012' ];
 
@@ -57,14 +57,14 @@ describe('#years()', function() {
 });
 
 describe('#yearsAbbr()', function() {
-  it('should return [ "99", "00", "01" ] when arguments are (2999, 3001)', function() {
+  it('returns [ "99", "00", "01" ] when arguments are (2999, 3001)', function() {
     var years = calendar.yearsAbbr(2999, 3001);
     var expectedYears = [ '99', '00', '01' ];
 
     expect(years).to.eql(expectedYears);
   });
 
-  it('should accept only one argument', function() {
+  it('accepts only one argument', function() {
     var year = calendar.yearsAbbr(2016);
     var expectedYear = '16';
 
@@ -73,35 +73,35 @@ describe('#yearsAbbr()', function() {
 });
 
 describe('#locale()', function() {
-  it('should return the default locale at first', function() {
+  it('returns the default locale at first', function() {
     var locale = calendar.locale();
     var expectedLocale = 'en';
 
     expect(locale).to.equal(expectedLocale);
   });
 
-  it('should update locale if called with a valid argument', function() {
+  it('updates locale if called with a valid argument', function() {
     var locale = calendar.locale('pt-br').locale();
     var expectedLocale = 'pt-br';
 
     expect(locale).to.equal(expectedLocale);
   });
 
-  it('should reset to default locale if argument is false', function() {
+  it('resets to default locale if argument is false', function() {
     var locale = calendar.locale(false).locale();
     var expectedLocale = 'en';
 
     expect(locale).to.equal(expectedLocale);
   });
 
-  it('should reset to default locale if argument is an empty string', function() {
+  it('resets to default locale if argument is an empty string', function() {
     var locale = calendar.locale('').locale();
     var expectedLocale = 'en';
 
     expect(locale).to.equal(expectedLocale);
   });
 
-  it('should throw TypeError if an invalid argument is passed', function() {
+  it('throws TypeError if an invalid argument is passed', function() {
     var locale1 = function () { calendar.locale(1) };
     var locale2 = function () { calendar.locale(null) };
     var locale3 = function () { calendar.locale(true) };
@@ -113,26 +113,26 @@ describe('#locale()', function() {
 });
 
 describe('#of()', function() {
-  it('should throw InvalidMonthError when an invalid month is passed', function() {
+  it('throws InvalidMonthError when an invalid month is passed', function() {
     var calendar1 = function () { calendar.of(2016, 12) };
 
     expect(calendar1).to.throw(InvalidMonthError);
   });
 
-  it('should accept only numbers as arguments', function() {
+  it('accepts only numbers as arguments', function() {
     var calendar1 = function() { calendar.of('2016', '11') };
 
     expect(calendar1).to.throw(Error);
   });
 
-  it('should return the year and the yearAbbr', function() {
+  it('returns the year and the yearAbbr', function() {
     var calendar1 = calendar.of(2016, 0);
 
     expect(calendar1).to.have.property('year', '2016');
     expect(calendar1).to.have.property('yearAbbr', '16');
   });
 
-  it('should return the month and the monthAbbr', function() {
+  it('returns the month and the monthAbbr', function() {
     var calendar1 = calendar.of(2016, 0);
 
     expect(calendar1).to.have.property('month', 'January');
