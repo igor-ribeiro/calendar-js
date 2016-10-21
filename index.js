@@ -2,8 +2,19 @@
 
 var InvalidMonthError = require('./src/errors/InvalidMonthError');
 
-var months = [
-  'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',
+var _months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
 
 var _weekdays = [
@@ -42,7 +53,7 @@ module.exports = {
   },
 
   months: function() {
-    return months;
+    return _months;
   },
 
   monthsAbbr: function() {
