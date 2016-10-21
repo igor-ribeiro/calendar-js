@@ -5,14 +5,6 @@ var expect = require('chai').expect;
 var InvalidMonthError = require('./../src/errors/InvalidMonthError');
 var calendar = require('./../index');
 
-var expectedMonths = [
-  'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',
-];
-
-var expectedMonthsAbbr = [
-  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-];
-
 describe('#months()', function() {
   it('has 12 months', function() {
     var months = calendar.months();
@@ -23,7 +15,20 @@ describe('#months()', function() {
   it('returns all the months names', function() {
     var months = calendar.months();
 
-    expect(months).to.eql(expectedMonths);
+    expect(months).to.eql([
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ]);
   })
 });
 
@@ -31,7 +36,20 @@ describe('#monthsAbbr()', function() {
   it('returns all months names abbreviated', function() {
     var monthsAbbr = calendar.monthsAbbr();
 
-    expect(monthsAbbr).to.eql(expectedMonthsAbbr);
+    expect(monthsAbbr).to.eql([
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ]);
   });
 });
 
@@ -50,55 +68,56 @@ describe('#years()', function() {
 
   it('returns [ "2010", "2011", "2012" ] when arguments are (2010, 2012)', function() {
     var years = calendar.years(2010, 2012);
-    var expectedYears = [ '2010', '2011', '2012' ];
 
-    expect(years).to.eql(expectedYears);
+    expect(years).to.eql([
+      '2010',
+      '2011',
+      '2012',
+    ]);
   });
 });
 
 describe('#yearsAbbr()', function() {
   it('returns [ "99", "00", "01" ] when arguments are (2999, 3001)', function() {
     var years = calendar.yearsAbbr(2999, 3001);
-    var expectedYears = [ '99', '00', '01' ];
 
-    expect(years).to.eql(expectedYears);
+    expect(years).to.eql([
+      '99',
+      '00',
+      '01',
+    ]);
   });
 
   it('accepts only one argument', function() {
     var year = calendar.yearsAbbr(2016);
-    var expectedYear = '16';
 
-    expect(year).to.equal(expectedYear);
+    expect(year).to.equal('16');
   });
 });
 
 describe('#locale()', function() {
   it('returns the default locale at first', function() {
     var locale = calendar.locale();
-    var expectedLocale = 'en';
 
-    expect(locale).to.equal(expectedLocale);
+    expect(locale).to.equal('en');
   });
 
   it('updates locale if called with a valid argument', function() {
     var locale = calendar.locale('pt-br').locale();
-    var expectedLocale = 'pt-br';
 
-    expect(locale).to.equal(expectedLocale);
+    expect(locale).to.equal('pt-br');
   });
 
   it('resets to default locale if argument is false', function() {
     var locale = calendar.locale(false).locale();
-    var expectedLocale = 'en';
 
-    expect(locale).to.equal(expectedLocale);
+    expect(locale).to.equal('en');
   });
 
   it('resets to default locale if argument is an empty string', function() {
     var locale = calendar.locale('').locale();
-    var expectedLocale = 'en';
 
-    expect(locale).to.equal(expectedLocale);
+    expect(locale).to.equal('en');
   });
 
   it('throws TypeError if an invalid argument is passed', function() {
