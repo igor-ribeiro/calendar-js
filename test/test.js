@@ -131,6 +131,28 @@ describe('#locale()', function() {
   });
 });
 
+describe('#weekdays', function() {
+  it('has 7 weekdays', function () {
+    var weekdays = calendar.weekdays();
+
+    expect(weekdays.length).to.equal(7);
+  });
+
+  it('returns all weekdays names', function() {
+    var weekdays = calendar.weekdays();
+
+    expect(weekdays).to.eql([
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ]);
+  });
+});
+
 describe('#of()', function() {
   it('throws InvalidMonthError when an invalid month is passed', function() {
     var calendar1 = function () { calendar.of(2016, 12) };
