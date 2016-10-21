@@ -93,6 +93,12 @@ module.exports = {
     return _weekdays;
   },
 
+  weekdaysAbbr: function() {
+    return this.weekdays().map(function(weekday) {
+      return weekday.slice(0, 3);
+    });
+  },
+
   of: function(year, month) {
     if (month < 0 || month > 11) {
       throw new InvalidMonthError('Month should be beetwen 0 and 11');
