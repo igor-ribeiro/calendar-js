@@ -153,6 +153,22 @@ describe('#weekdays', function() {
   });
 });
 
+describe('#weekdaysAbbr', function() {
+  it('returns all months names abbreviated', function() {
+    var weekdaysAbbr = calendar.weekdaysAbbr();
+
+    expect(weekdaysAbbr).to.eql([
+      'Sun',
+      'Mon',
+      'Tue',
+      'Wed',
+      'Thu',
+      'Fri',
+      'Sat',
+    ]);
+  });
+});
+
 describe('#of()', function() {
   it('throws InvalidMonthError when an invalid month is passed', function() {
     var calendar1 = function () { calendar.of(2016, 12) };
