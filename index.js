@@ -27,92 +27,70 @@ var _weekdays = [
   'Saturday',
 ];
 
-var DEFAULT_LOCALE = 'en';
+module.exports = function() {
+  return {
+    months: function() {
+      return _months;
+    },
 
-module.exports = {
-  _locale: DEFAULT_LOCALE,
+    monthsAbbr: function() {
+      return this.months().map(function(month) {
+        return month.slice(0, 3);
+      });
+    },
 
-  locale: function(locale) {
-    if (typeof locale === 'string') {
-      this._locale = locale ? locale : DEFAULT_LOCALE;
+    years: function(from, to) {
+      if (from > to) {
+        throw new RangeError('The first year argument cannot be greater than the second');
+      }
 
-      return this;
-    }
+      var years = [ from.toString() ];
+      var totalYears = to - from + 1;
 
-    if (typeof locale === 'boolean' && ! locale) {
-      this._locale = DEFAULT_LOCALE;
+      while (years.length < totalYears) {
+        var year = parseInt(years[years.length - 1], 10) + 1;
 
-      return this;
-    }
+        years.push(year.toString());
+      }
 
-    if (locale === undefined) {
-      return this._locale;
-    }
+      return years;
+    },
 
-    throw new TypeError('Invalid locale argument');
-  },
+    yearsAbbr: function(from, to) {
+      var years = this.years(from, to).map(function(year) {
+        return year.toString().substring(2);
+      });
 
-  months: function() {
-    return _months;
-  },
+      return (years.length > 1)
+        ? years
+        : years[0];
+    },
 
-  monthsAbbr: function() {
-    return this.months().map(function(month) {
-      return month.slice(0, 3);
-    });
-  },
+    weekdays: function() {
+      return _weekdays;
+    },
 
-  years: function(from, to) {
-    if (from > to) {
-      throw new RangeError('The first year argument cannot be greater than the second');
-    }
+    weekdaysAbbr: function() {
+      return this.weekdays().map(function(weekday) {
+        return weekday.slice(0, 3);
+      });
+    },
 
-    var years = [ from.toString() ];
-    var totalYears = to - from + 1;
+    of: function(year, month) {
+      if (month < 0 || month > 11) {
+        throw new InvalidMonthError('Month should be beetwen 0 and 11');
+      }
 
-    while (years.length < totalYears) {
-      var year = parseInt(years[years.length - 1], 10) + 1;
+      if (typeof year !== 'number' || typeof month !== 'number') {
+        throw new Error('Arguments should be numbers');
+      }
 
-      years.push(year.toString());
-    }
-
-    return years;
-  },
-
-  yearsAbbr: function(from, to) {
-    var years = this.years(from, to).map(function(year) {
-      return year.toString().substring(2);
-    });
-
-    return (years.length > 1)
-      ? years
-      : years[0];
-  },
-
-  weekdays: function() {
-    return _weekdays;
-  },
-
-  weekdaysAbbr: function() {
-    return this.weekdays().map(function(weekday) {
-      return weekday.slice(0, 3);
-    });
-  },
-
-  of: function(year, month) {
-    if (month < 0 || month > 11) {
-      throw new InvalidMonthError('Month should be beetwen 0 and 11');
-    }
-
-    if (typeof year !== 'number' || typeof month !== 'number') {
-      throw new Error('Arguments should be numbers');
-    }
-
-    return {
-      year: year.toString(),
-      yearAbbr: this.yearsAbbr(year),
-      month: this.months()[month],
-      monthAbbr: this.monthsAbbr()[month],
-    };
-  },
+      return {
+        year: year.toString(),
+        yearAbbr: this.yearsAbbr(year),
+        month: this.months()[month],
+        monthAbbr: this.monthsAbbr()[month],
+      };
+    },
+  };
 };
