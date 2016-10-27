@@ -205,7 +205,7 @@ describe('#monthsAbbr()', function() {
 
 describe('#years()', function() {
   it('throws a RangeError if the first argument is greater than the second', function() {
-    var years = calendar().years.bind(null, 2016, 2014);
+    var years = function () { calendar().years(2016, 2014); }
 
     expect(years).to.throw(RangeError);
   });
@@ -228,6 +228,12 @@ describe('#years()', function() {
 });
 
 describe('#yearsAbbr()', function() {
+  it('throws a RangeError if the first argument is greater than the second', function() {
+    var yearsAbbr = function() { calendar().yearsAbbr(2016, 2014); }
+
+    expect(yearsAbbr).to.throw(RangeError);
+  });
+
   it('returns [ "99", "00", "01" ] when arguments are (2999, 3001)', function() {
     var years = calendar().yearsAbbr(2999, 3001);
 
