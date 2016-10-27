@@ -1,8 +1,10 @@
 'use strict';
 
 var InvalidMonthError = require('./src/errors/InvalidMonthError');
+var InvalidMonthsError = require('./src/errors/InvalidMonthsError');
+var InvalidMonthsAbbrError = require('./src/errors/InvalidMonthsAbbrError');
 
-var _months = [
+var MONTHS = [
   'January',
   'February',
   'March',
@@ -27,16 +29,47 @@ var _weekdays = [
   'Saturday',
 ];
 
-module.exports = function() {
+function generateMonthsAbbr(months) {
+  return months.map(function(month) {
+    return month.slice(0, 3);
+  });
+}
+
+module.exports = function(config) {
+  var _months = MONTHS;
+  var _monthsAbbr = generateMonthsAbbr(MONTHS);
+
+  if (config && config.months) {
+    if (! Array.isArray(config.months)) {
+      throw new InvalidMonthsError('Months array must have 12 values');
+    }
+
+    if (config.months.length !== 12) {
+      throw new InvalidMonthsError('Months array must have 12 values');
+    }
+
+    _months = config.months;
+  }
+
+  if (config && config.monthsAbbr) {
+    if (! Array.isArray(config.monthsAbbr)) {
+      throw new InvalidMonthsAbbrError('Months array must have 12 values');
+    }
+
+    if (config.monthsAbbr.length !== 12) {
+      throw new InvalidMonthsAbbrError('Months array must have 12 values');
+    }
+
+    _monthsAbbr = config.monthsAbbr;
+  }
+
   return {
     months: function() {
       return _months;
     },
 
     monthsAbbr: function() {
-      return this.months().map(function(month) {
-        return month.slice(0, 3);
-      });
+      return _monthsAbbr;
     },
 
     years: function(from, to) {

@@ -3,7 +3,141 @@
 var expect = require('chai').expect;
 
 var InvalidMonthError = require('./../src/errors/InvalidMonthError');
+var InvalidMonthsError = require('./../src/errors/InvalidMonthsError');
+var InvalidMonthsAbbrError = require('./../src/errors/InvalidMonthsAbbrError');
 var calendar = require('./../index');
+
+describe('#calendar()', function() {
+  it('sets months as values from config.values if is\'s an array', function () {
+    var months = [
+      'Janeiro',
+      'Fevereiro',
+      'Março',
+      'Abril',
+      'Maio',
+      'Junho',
+      'Julho',
+      'Agosto',
+      'Setembro',
+      'Outubro',
+      'Novembro',
+      'Dezembro',
+    ];
+
+    var customCalendar = calendar({ months: months });
+
+    expect(customCalendar.months()).to.eql(months);
+  });
+
+  it('throws InvalidMonthsError when config.months is not an array', function() {
+    var customCalendar1 = function () { calendar({ months: {} }) };
+    var customCalendar2 = function () { calendar({ months: 1 }) };
+
+    expect(customCalendar1).to.throw(InvalidMonthsError);
+    expect(customCalendar2).to.throw(InvalidMonthsError);
+  });
+
+  it('throws InvalidMonthsError when config.months array is empty', function() {
+    var customCalendar = function () { calendar({ months: [] }) };
+
+    expect(customCalendar).to.throw(InvalidMonthsError);
+  });
+
+  it('throws InvalidMonthsError when config.months array length is < 12', function() {
+    var customCalendar = function () {
+      calendar({ months: [ 'January' ] })
+    };
+
+    expect(customCalendar).to.throw(InvalidMonthsError);
+  });
+
+  it('throws InvalidMonthsError when config.months array length is > 12', function() {
+    var customCalendar = function () {
+      calendar({ months: [
+        'a',
+        'b',
+        'c',
+        'd',
+        'e',
+        'f',
+        'g',
+        'h',
+        'i',
+        'j',
+        'k',
+        'l',
+        'm',
+      ]})
+    };
+
+    expect(customCalendar).to.throw(InvalidMonthsError);
+  });
+
+  it('sets monthsAbbr from config.monthsAbbr', function () {
+    var monthsAbbr = [
+      'JAN',
+      'FEV',
+      'MAR',
+      'ABR',
+      'MAI',
+      'JUN',
+      'JUL',
+      'AGO',
+      'SET',
+      'OUT',
+      'NOV',
+      'DEZ',
+    ];
+
+    var customCalendar = calendar({ monthsAbbr: monthsAbbr });
+
+    expect(customCalendar.monthsAbbr()).to.eql(monthsAbbr);
+  });
+
+  it('throws InvalidMonthsAbbrError when config.months is not an array', function() {
+    var customCalendar1 = function () { calendar({ monthsAbbr: {} }) };
+    var customCalendar2 = function () { calendar({ monthsAbbr: 1 }) };
+
+    expect(customCalendar1).to.throw(InvalidMonthsAbbrError);
+    expect(customCalendar2).to.throw(InvalidMonthsAbbrError);
+  });
+
+  it('throws InvalidMonthsAbbrError when config.monthsAbbr array is empty', function() {
+    var customCalendar = function () { calendar({ monthsAbbr: [] }) };
+
+    expect(customCalendar).to.throw(InvalidMonthsAbbrError);
+  });
+
+  it('throws InvalidMonthsAbbrError when config.monthsAbbr array length is < 12', function() {
+    var customCalendar = function () {
+      calendar({ monthsAbbr: [ 'Jan' ] })
+    };
+
+    expect(customCalendar).to.throw(InvalidMonthsAbbrError);
+  });
+
+  it('throws InvalidMonthsAbbrError when config.monthsAbbr array length is > 12', function() {
+    var customCalendar = function () {
+      calendar({ monthsAbbr: [
+        'a',
+        'b',
+        'c',
+        'd',
+        'e',
+        'f',
+        'g',
+        'h',
+        'i',
+        'j',
+        'k',
+        'l',
+        'm',
+      ]})
+    };
+
+    expect(customCalendar).to.throw(InvalidMonthsAbbrError);
+  });
+});
 
 describe('#months()', function() {
   it('has 12 months', function() {
