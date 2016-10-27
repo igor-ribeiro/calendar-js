@@ -49,6 +49,7 @@ module.exports = function(config) {
     }
 
     _months = config.months;
+    _monthsAbbr = generateMonthsAbbr(config.months);
   }
 
   if (config && config.monthsAbbr) {

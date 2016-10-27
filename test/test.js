@@ -8,7 +8,7 @@ var InvalidMonthsAbbrError = require('./../src/errors/InvalidMonthsAbbrError');
 var calendar = require('./../index');
 
 describe('#calendar()', function() {
-  it('sets months as values from config.values if is\'s an array', function () {
+  it('sets months and monthsAbbr from config.months', function () {
     var months = [
       'Janeiro',
       'Fevereiro',
@@ -24,9 +24,25 @@ describe('#calendar()', function() {
       'Dezembro',
     ];
 
+    var expectedMonthsAbbr = [
+      'Jan',
+      'Fev',
+      'Mar',
+      'Abr',
+      'Mai',
+      'Jun',
+      'Jul',
+      'Ago',
+      'Set',
+      'Out',
+      'Nov',
+      'Dez',
+    ];
+
     var customCalendar = calendar({ months: months });
 
     expect(customCalendar.months()).to.eql(months);
+    expect(customCalendar.monthsAbbr()).to.eql(expectedMonthsAbbr);
   });
 
   it('throws InvalidMonthsError when config.months is not an array', function() {
