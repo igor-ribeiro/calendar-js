@@ -129,6 +129,7 @@ module.exports = function(config) {
         weekdays: this.weekdays(),
         weekdaysAbbr: this.weekdaysAbbr(),
         days: DateFns.getDaysInMonth(new Date(year, month)),
+        firstWeekday: DateFns.getDay(new Date(year, month, 1)),
       };
     },
   };

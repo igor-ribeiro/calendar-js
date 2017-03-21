@@ -328,4 +328,10 @@ describe('#of()', function() {
 
     expect(calendar1.days).to.equal(31);
   });
+
+  it('returns the first weekday', function() {
+    var calendar1 = calendar().of(2016, 0);
+
+    expect(calendar1.firstWeekday).to.equal(5);
+  });
 });
