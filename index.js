@@ -121,6 +121,8 @@ module.exports = function(config) {
         throw new Error('Arguments should be numbers');
       }
 
+      const numberOfDays =  DateFns.getDaysInMonth(new Date(year, month));
+
       return {
         year: year.toString(),
         yearAbbr: this.yearsAbbr(year),
@@ -128,8 +130,9 @@ module.exports = function(config) {
         monthAbbr: this.monthsAbbr()[month],
         weekdays: this.weekdays(),
         weekdaysAbbr: this.weekdaysAbbr(),
-        days: DateFns.getDaysInMonth(new Date(year, month)),
+        days: numberOfDays,
         firstWeekday: DateFns.getDay(new Date(year, month, 1)),
+        lastWeekday: DateFns.getDay(new Date(year, month, numberOfDays)),
       };
     },
   };
