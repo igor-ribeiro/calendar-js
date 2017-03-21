@@ -315,4 +315,11 @@ describe('#of()', function() {
     expect(calendar1).to.have.property('month', 'January');
     expect(calendar1).to.have.property('monthAbbr', 'Jan');
   });
+
+  it('returns the weekdays and the weekdaysAbbr', function() {
+    var calendar1 = calendar().of(2016, 0);
+
+    expect(calendar1.weekdays.length).to.equal(7);
+    expect(calendar1.weekdaysAbbr.length).to.equal(7);
+  });
 });

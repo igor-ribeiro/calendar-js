@@ -1,5 +1,7 @@
 'use strict';
 
+var DateFns = require('date-fns'); 
+
 var InvalidMonthError = require('./src/errors/InvalidMonthError');
 var InvalidMonthsError = require('./src/errors/InvalidMonthsError');
 var InvalidMonthsAbbrError = require('./src/errors/InvalidMonthsAbbrError');
@@ -124,6 +126,8 @@ module.exports = function(config) {
         yearAbbr: this.yearsAbbr(year),
         month: this.months()[month],
         monthAbbr: this.monthsAbbr()[month],
+        weekdays: this.weekdays(),
+        weekdaysAbbr: this.weekdaysAbbr(),
       };
     },
   };
