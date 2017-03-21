@@ -128,6 +128,7 @@ module.exports = function(config) {
         monthAbbr: this.monthsAbbr()[month],
         weekdays: this.weekdays(),
         weekdaysAbbr: this.weekdaysAbbr(),
+        days: DateFns.getDaysInMonth(new Date(year, month)),
       };
     },
   };

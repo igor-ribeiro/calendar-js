@@ -322,4 +322,10 @@ describe('#of()', function() {
     expect(calendar1.weekdays.length).to.equal(7);
     expect(calendar1.weekdaysAbbr.length).to.equal(7);
   });
+
+  it('returns the number of days of the month', function() {
+    var calendar1 = calendar().of(2016, 0);
+
+    expect(calendar1.days).to.equal(31);
+  });
 });
