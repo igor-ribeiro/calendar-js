@@ -1,4 +1,4 @@
-# Calendar.js (Work In Progress)
+# Calendar.js
 Pure JS calendar library
 ## Motivation
 I needed a date-picker component for a VueJS project, and I found it! But, one has too many dependencies, and the styles of others are too coupled with Bootstrap or Material Design or whatever.
@@ -16,17 +16,17 @@ Sets or returns the locale
 ### .years(from, to)
 Returns the years in range
 ```js
-calendar.years(2010, 2015)
+calendar().years(2010, 2015)
 
-[ 2010, 2011, 2012, 2013, 2014, 2015 ]
+[ '2010', '2011', '2012', '2013', '2014', '2015' ]
 ```
 
 ### .yearsAbbr(from, to)
 Returns the years in range
 ```js
-calendar.years(2010, 2015)
+calendar().yearsAbbr(2010, 2015)
 
-[ 10, 11, 12, 13, 14, 15 ]
+[ '10', '11', '12', '13', '14', '15' ]
 ```
 
 ### .months()
@@ -41,18 +41,18 @@ calendar.years(2010, 2015)
 
 ### .of(year, month)
 ```js
-calendar.of(2016, 0)
+calendar().of(2016, 0)
 
 {
-  year: 2016,
-  yearAbbr: 16,
+  year: '2016',
+  yearAbbr: '16',
   month: 'January',
   monthAbbr: 'Jan',
   weekdays: [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ],
   weekdaysAbbr: [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ],
   days: 31,
-  startsAtWeekday: 5,
-  endsAtWeekday:  0,
+  firstWeekday: 5,
+  lastWeekday:  0,
   calendar: [
     [  0,  0,  0,  0,  0,  1,  2 ],
     [  3,  4,  5,  6,  7,  8,  9 ],
