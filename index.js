@@ -112,6 +112,44 @@ module.exports = function(config) {
       });
     },
 
+    generateCalendar: function(numberOfDays, firstWeekday, lastWeekday) {
+      var calendar = [];
+      var weeks = [];
+      var totalWeeks = Math.ceil((numberOfDays + firstWeekday) / 7);
+      var totalDaysOnWeek = 7;
+      var lastDay = 0;
+
+      Array.from({ length: totalWeeks }).forEach(function (_, week) {
+        Array.from({ length: totalDaysOnWeek }).forEach(function (_, day) {
+          var dayToAdd = 0;
+
+          if (week === 0) {
+            // if it is the first week fill with '0' until the firstWeekday
+            if (day >= firstWeekday) {
+              lastDay++;
+              dayToAdd = lastDay;
+            }
+          } else if (week === totalWeeks.length - 1) {
+            // if it is the first week fill with '0' after the lastWeekday
+            if (day <= lastWeekday && lastDay < numberOfDays) {
+              lastDay++;
+              dayToAdd = lastDay;
+            }
+          } else if (lastDay < numberOfDays) {
+            lastDay++;
+            dayToAdd = lastDay;
+          }
+
+          weeks.push(dayToAdd);
+        });
+
+        calendar.push(weeks);
+        weeks = [];
+      });
+
+      return calendar;
+    },
+
     of: function(year, month) {
       if (month < 0 || month > 11) {
         throw new InvalidMonthError('Month should be beetwen 0 and 11');
@@ -121,7 +159,9 @@ module.exports = function(config) {
         throw new Error('Arguments should be numbers');
       }
 
-      const numberOfDays =  DateFns.getDaysInMonth(new Date(year, month));
+      var numberOfDays =  DateFns.getDaysInMonth(new Date(year, month));
+      var firstWeekday = DateFns.getDay(new Date(year, month, 1));
+      var lastWeekday = DateFns.getDay(new Date(year, month, numberOfDays));
 
       return {
         year: year.toString(),
@@ -131,8 +171,9 @@ module.exports = function(config) {
         weekdays: this.weekdays(),
         weekdaysAbbr: this.weekdaysAbbr(),
         days: numberOfDays,
-        firstWeekday: DateFns.getDay(new Date(year, month, 1)),
-        lastWeekday: DateFns.getDay(new Date(year, month, numberOfDays)),
+        firstWeekday: firstWeekday,
+        lastWeekday: lastWeekday,
+        calendar: this.generateCalendar(numberOfDays, firstWeekday, lastWeekday),
       };
     },
   };
