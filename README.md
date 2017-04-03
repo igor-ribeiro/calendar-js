@@ -10,8 +10,7 @@ So I started by doing a simple calendar using MomentJS. By doing it I realized t
 That’s my goal.
 
 ## API Usage
-### .locale(locale)
-Sets or returns the locale
+
 
 ### .years(from, to)
 Returns the years in range
