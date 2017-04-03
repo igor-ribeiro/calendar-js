@@ -1,7 +1,5 @@
 'use strict';
 
-var DateFns = require('date-fns'); 
-
 var InvalidMonthError = require('./src/errors/InvalidMonthError');
 var InvalidMonthsError = require('./src/errors/InvalidMonthsError');
 var InvalidMonthsAbbrError = require('./src/errors/InvalidMonthsAbbrError');
@@ -159,9 +157,9 @@ module.exports = function(config) {
         throw new Error('Arguments should be numbers');
       }
 
-      var numberOfDays =  DateFns.getDaysInMonth(new Date(year, month));
-      var firstWeekday = DateFns.getDay(new Date(year, month, 1));
-      var lastWeekday = DateFns.getDay(new Date(year, month, numberOfDays));
+      var numberOfDays =  new Date(year, month + 1, 0).getDate();
+      var firstWeekday = new Date(year, month, 1).getDay();
+      var lastWeekday = new Date(year, month, numberOfDays).getDay();
 
       return {
         year: year.toString(),
