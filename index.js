@@ -38,7 +38,8 @@ function generateMonthsAbbr(months) {
 module.exports = function(config) {
   var _months = MONTHS;
   var _monthsAbbr = generateMonthsAbbr(MONTHS);
-
+  var _useLegacyApi = config && config.useLegacyApi === true;
+  
   if (config && config.months) {
     if (! Array.isArray(config.months)) {
       throw new InvalidMonthsError('Months array must have 12 values');
@@ -110,37 +111,51 @@ module.exports = function(config) {
       });
     },
 
-    generateCalendar: function(numberOfDays, firstWeekday, lastWeekday) {
+    generateCalendar: function(year, month, numberOfDays, firstWeekday, lastWeekday, modifierCb, cbData) {
       var calendar = [];
       var weeks = [];
       var totalWeeks = Math.ceil((numberOfDays + firstWeekday) / 7);
       var totalDaysOnWeek = 7;
-      var lastDay = 0;
-
+      var lastDay = firstWeekday * -1;
+      var lastWeek = totalWeeks - 1;
+      var execCb = false;
+      
+      if (_useLegacyApi) {
+        execCb = true;
+        modifierCb = function(data) {
+          return data.isInPrimaryMonth ? data.day : 0;
+        }
+      } else {
+        execCb = typeof modifierCb === 'function';
+      }
+      
       Array.from({ length: totalWeeks }).forEach(function (_, week) {
         Array.from({ length: totalDaysOnWeek }).forEach(function (_, day) {
-          var dayToAdd = 0;
+          lastDay++;
 
-          if (week === 0) {
-            // if it is the first week fill with '0' until the firstWeekday
-            if (day >= firstWeekday) {
-              lastDay++;
-              dayToAdd = lastDay;
+          var date = new Date(year, month, lastDay);
+
+          var data = {
+            date: date,
+            day: date.getDate(),
+            isInPrimaryMonth: date.getMonth() === month,
+            isInLastWeekOfPrimaryMonth: week === lastWeek,
+            index: {
+              day: day,
+              week: week
             }
-          } else if (week === totalWeeks.length - 1) {
-            // if it is the first week fill with '0' after the lastWeekday
-            if (day <= lastWeekday && lastDay < numberOfDays) {
-              lastDay++;
-              dayToAdd = lastDay;
+          };
+
+          if (execCb) {
+            var result = modifierCb(data, cbData);
+            if (result !== undefined) {
+              data = result;
             }
-          } else if (lastDay < numberOfDays) {
-            lastDay++;
-            dayToAdd = lastDay;
           }
 
-          weeks.push(dayToAdd);
+          weeks.push(data);
         });
-
+       
         calendar.push(weeks);
         weeks = [];
       });
@@ -148,7 +163,7 @@ module.exports = function(config) {
       return calendar;
     },
 
-    of: function(year, month) {
+    of: function(year, month, modifierCb) {
       if (month < 0 || month > 11) {
         throw new InvalidMonthError('Month should be beetwen 0 and 11');
       }
@@ -161,7 +176,7 @@ module.exports = function(config) {
       var firstWeekday = new Date(year, month, 1).getDay();
       var lastWeekday = new Date(year, month, numberOfDays).getDay();
 
-      return {
+      var result = {
         year: year.toString(),
         yearAbbr: this.yearsAbbr(year),
         month: this.months()[month],
@@ -171,8 +186,13 @@ module.exports = function(config) {
         days: numberOfDays,
         firstWeekday: firstWeekday,
         lastWeekday: lastWeekday,
-        calendar: this.generateCalendar(numberOfDays, firstWeekday, lastWeekday),
       };
+
+      var calendar = this.generateCalendar(year, month, numberOfDays, firstWeekday, lastWeekday, modifierCb, result);
+
+      result.calendar = calendar;
+
+      return result;
     },
   };
 };
