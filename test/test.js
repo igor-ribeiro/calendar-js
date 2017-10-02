@@ -354,4 +354,16 @@ describe('#of()', function() {
 
     expect(calendar1.calendar).to.eql(expectedCalendar);
   });
+
+  it('transforms the data based on callback', function() {
+    function transformer(data) {
+      return {
+        test: true,
+      };
+    }
+
+    var calendarData = calendar().of(2017, 0, transformer);
+
+    expect(calendarData.test).to.equal(true);
+  });
 });

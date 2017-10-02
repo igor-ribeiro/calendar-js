@@ -38,7 +38,7 @@ calendar().yearsAbbr(2010, 2015)
 [ 'Jan', 'Feb', 'Mar', 'Apr', ... ]
 ```
 
-### .of(year, month)
+### .of(year, month, transformer)
 ```js
 calendar().of(2016, 0)
 
@@ -62,3 +62,5 @@ calendar().of(2016, 0)
   ],
 }
 ```
+
+The transformer param is a function that receives the result of `.of` method so you can customize the output.

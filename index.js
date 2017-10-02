@@ -148,7 +148,7 @@ module.exports = function(config) {
       return calendar;
     },
 
-    of: function(year, month) {
+    of: function(year, month, transformer) {
       if (month < 0 || month > 11) {
         throw new InvalidMonthError('Month should be beetwen 0 and 11');
       }
@@ -161,7 +161,7 @@ module.exports = function(config) {
       var firstWeekday = new Date(year, month, 1).getDay();
       var lastWeekday = new Date(year, month, numberOfDays).getDay();
 
-      return {
+      const data = {
         year: year.toString(),
         yearAbbr: this.yearsAbbr(year),
         month: this.months()[month],
@@ -173,6 +173,12 @@ module.exports = function(config) {
         lastWeekday: lastWeekday,
         calendar: this.generateCalendar(numberOfDays, firstWeekday, lastWeekday),
       };
+
+      if (typeof transformer === 'function') {
+        return transformer(data);
+      }
+
+      return data;
     },
   };
 };
