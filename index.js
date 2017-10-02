@@ -19,7 +19,7 @@ var MONTHS = [
   'December',
 ];
 
-var _weekdays = [
+var WEEKDAYS = [
   'Sunday',
   'Monday',
   'Tuesday',
@@ -101,7 +101,7 @@ module.exports = function(config) {
     },
 
     weekdays: function() {
-      return _weekdays;
+      return WEEKDAYS;
     },
 
     weekdaysAbbr: function() {
