@@ -1,19 +1,75 @@
 # Calendar.js
+Pure JS calendar library
+## Motivation
+I needed a date-picker component for a VueJS project, and I found it! But, one has too many dependencies, and the styles of others are too coupled with Bootstrap or Material Design or whatever.
 
-This is a fork of [calendar-js](https://github.com/igor-ribeiro/calendar-js) that changes the following:
+So I started by doing a simple calendar using MomentJS. By doing it I realized that a date-picker is a calendar with the option of selecting a date. With that in mind I realized that we need to calculate some things to render a calendar, like, the days in that month, in what weekday is the first and the last day, wich weekdays are empty in that month, etc. Then I concluded:
 
-* The date integers from `calendar.of()` have been replaced with **date descriptor objects**.
-* `calendar.of()` now accpets an optional callback that can augment (or entirely replace) the date descriptor objects.
-* The main `calendar()` constructor supports a new flag, `useLegacyApi`. Setting that to `true` will cause `calendar.of()` to return what it currently does (an array of integers instead of date descriptor objects).
+> We can have a general library that calculates these things so we only need to render these information in any framework
+
+That’s my goal.
+
+## API Usage
 
 
-
-
-## Examples
-
-### .of(year, month)
+### .years(from, to)
+Returns the years in range
 ```js
-calendar().of(2017, 10)
+calendar().years(2010, 2015)
+
+[ '2010', '2011', '2012', '2013', '2014', '2015' ]
+```
+
+### .yearsAbbr(from, to)
+Returns the years in range
+```js
+calendar().yearsAbbr(2010, 2015)
+
+[ '10', '11', '12', '13', '14', '15' ]
+```
+
+### .months()
+```js
+[ 'January', 'February', 'March', 'April', ... ]
+```
+
+### .monthsAbbr()
+```js
+[ 'Jan', 'Feb', 'Mar', 'Apr', ... ]
+```
+
+### .of(year, month[, transformer])
+```js
+calendar().of(2016, 0)
+
+{
+  year: '2016',
+  yearAbbr: '16',
+  month: 'January',
+  monthAbbr: 'Jan',
+  weekdays: [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ],
+  weekdaysAbbr: [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ],
+  days: 31,
+  firstWeekday: 5,
+  lastWeekday:  0,
+  calendar: [
+    [  0,  0,  0,  0,  0,  1,  2 ],
+    [  3,  4,  5,  6,  7,  8,  9 ],
+    [ 10, 11, 12, 13, 14, 15, 16 ],
+    [ 17, 18, 19, 20, 21, 22, 23 ],
+    [ 24, 25, 26, 27, 28, 29, 30 ],
+    [ 31,  0,  0,  0,  0,  0,  0 ],
+  ],
+}
+```
+
+The transformer param is a function that receives the result of `.of` method so you can customize the output.
+
+### .detailed(year, month[, dayTransformer])
+Like `.of` but returns a 'date descriptor object' for each date instead of an integer.
+
+```js
+calendar().detailed(2017, 10)
 
 {
   year: '2017',
@@ -85,14 +141,12 @@ calendar().of(2017, 10)
 }
 ```
 
-### .of(year, month, modifierCb)
-
-If you supply a modifier callback function, whatever that function returns will be used in place of the default date descriptor object. The callback is supplied the standard date descriptor object as well as the remainder of the `.of()` result set.
+If you supply a `dayTransformer` callback, whatever is returned will be used in place of the default date descriptor object. The callback is supplied the standard date descriptor object as well as the remainder of the `.detailed` result set.
 
 In this case, we'll add a few custom properties - `customFormat` and `weekday`. This way, anything that consumes this data can simply read these "pre-computed" properties.
 
 ```js
-var month = calendar().of(2017, 10, (data, calendar) => {
+var month = calendar().detailed(2017, 10, (data, calendar) => {
   return Object.assign({
     customFormat: someCustomFunction(data.date), // preformat date
     weekday: calendar.weekdays[data.index.day] // pre-pluck the weekday
@@ -113,10 +167,3 @@ The resulting date descriptor objects will now look like this:
   index: { day: 0, week: 0 }
 }
 ```
-
-
-## Tests
-The existing tests have been updated for all calendar instances to request the legacy api (`calendar({useLegacyApi: true})`). All tests still pass, but I haven't created any additional tests for the other changes.
-
-## Other
-I haven't updated the TypeScript declation file. I'm not a TypeScript user, so while it seems the updates would be minor, I don't want to change anything I can't/don't know how to test firsthand.

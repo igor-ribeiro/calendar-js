@@ -19,7 +19,7 @@ var MONTHS = [
   'December',
 ];
 
-var _weekdays = [
+var WEEKDAYS = [
   'Sunday',
   'Monday',
   'Tuesday',
@@ -38,7 +38,6 @@ function generateMonthsAbbr(months) {
 module.exports = function(config) {
   var _months = MONTHS;
   var _monthsAbbr = generateMonthsAbbr(MONTHS);
-  var _useLegacyApi = config && config.useLegacyApi === true;
   
   if (config && config.months) {
     if (! Array.isArray(config.months)) {
@@ -102,7 +101,7 @@ module.exports = function(config) {
     },
 
     weekdays: function() {
-      return _weekdays;
+      return WEEKDAYS;
     },
 
     weekdaysAbbr: function() {
@@ -111,23 +110,14 @@ module.exports = function(config) {
       });
     },
 
-    generateCalendar: function(year, month, numberOfDays, firstWeekday, lastWeekday, modifierCb, cbData) {
+    generateCalendar: function(year, month, numberOfDays, firstWeekday, lastWeekday, dayTransformer, cbData) {
       var calendar = [];
       var weeks = [];
       var totalWeeks = Math.ceil((numberOfDays + firstWeekday) / 7);
       var totalDaysOnWeek = 7;
       var lastDay = firstWeekday * -1;
       var lastWeek = totalWeeks - 1;
-      var execCb = false;
-      
-      if (_useLegacyApi) {
-        execCb = true;
-        modifierCb = function(data) {
-          return data.isInPrimaryMonth ? data.day : 0;
-        }
-      } else {
-        execCb = typeof modifierCb === 'function';
-      }
+      var execCb = typeof dayTransformer === 'function';
       
       Array.from({ length: totalWeeks }).forEach(function (_, week) {
         Array.from({ length: totalDaysOnWeek }).forEach(function (_, day) {
@@ -147,7 +137,7 @@ module.exports = function(config) {
           };
 
           if (execCb) {
-            var result = modifierCb(data, cbData);
+            var result = dayTransformer(data, cbData);
             if (result !== undefined) {
               data = result;
             }
@@ -163,7 +153,19 @@ module.exports = function(config) {
       return calendar;
     },
 
-    of: function(year, month, modifierCb) {
+    of: function(year, month, transformer) {
+      const data = this.detailed(year, month, function(data) {
+        return data.isInPrimaryMonth ? data.day : 0;
+      });
+
+      if (typeof transformer === 'function') {
+        return transformer(data);
+      }
+
+      return data;
+    },
+
+    detailed: function(year, month, dayTransformer) {
       if (month < 0 || month > 11) {
         throw new InvalidMonthError('Month should be beetwen 0 and 11');
       }
@@ -176,7 +178,7 @@ module.exports = function(config) {
       var firstWeekday = new Date(year, month, 1).getDay();
       var lastWeekday = new Date(year, month, numberOfDays).getDay();
 
-      var result = {
+      const data = {
         year: year.toString(),
         yearAbbr: this.yearsAbbr(year),
         month: this.months()[month],
@@ -188,11 +190,11 @@ module.exports = function(config) {
         lastWeekday: lastWeekday,
       };
 
-      var calendar = this.generateCalendar(year, month, numberOfDays, firstWeekday, lastWeekday, modifierCb, result);
+      var calendar = this.generateCalendar(year, month, numberOfDays, firstWeekday, lastWeekday, dayTransformer, data);
 
-      result.calendar = calendar;
+      data.calendar = calendar;
 
-      return result;
+      return data;
     },
   };
 };

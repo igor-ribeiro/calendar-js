@@ -39,29 +39,29 @@ describe('#calendar()', function() {
       'Dez',
     ];
 
-    var customCalendar = calendar({ useLegacyApi: true, months: months });
+    var customCalendar = calendar({ months: months });
 
     expect(customCalendar.months()).to.eql(months);
     expect(customCalendar.monthsAbbr()).to.eql(expectedMonthsAbbr);
   });
 
   it('throws InvalidMonthsError when config.months is not an array', function() {
-    var customCalendar1 = function () { calendar({ useLegacyApi: true, months: {} }) };
-    var customCalendar2 = function () { calendar({ useLegacyApi: true, months: 1 }) };
+    var customCalendar1 = function () { calendar({ months: {} }) };
+    var customCalendar2 = function () { calendar({ months: 1 }) };
 
     expect(customCalendar1).to.throw(InvalidMonthsError);
     expect(customCalendar2).to.throw(InvalidMonthsError);
   });
 
   it('throws InvalidMonthsError when config.months array is empty', function() {
-    var customCalendar = function () { calendar({ useLegacyApi: true, months: [] }) };
+    var customCalendar = function () { calendar({ months: [] }) };
 
     expect(customCalendar).to.throw(InvalidMonthsError);
   });
 
   it('throws InvalidMonthsError when config.months array length is < 12', function() {
     var customCalendar = function () {
-      calendar({ useLegacyApi: true, months: [ 'January' ] })
+      calendar({ months: [ 'January' ] })
     };
 
     expect(customCalendar).to.throw(InvalidMonthsError);
@@ -69,7 +69,7 @@ describe('#calendar()', function() {
 
   it('throws InvalidMonthsError when config.months array length is > 12', function() {
     var customCalendar = function () {
-      calendar({ useLegacyApi: true, months: [
+      calendar({ months: [
         'a',
         'b',
         'c',
@@ -105,28 +105,28 @@ describe('#calendar()', function() {
       'DEZ',
     ];
 
-    var customCalendar = calendar({ useLegacyApi: true, monthsAbbr: monthsAbbr });
+    var customCalendar = calendar({ monthsAbbr: monthsAbbr });
 
     expect(customCalendar.monthsAbbr()).to.eql(monthsAbbr);
   });
 
   it('throws InvalidMonthsAbbrError when config.months is not an array', function() {
-    var customCalendar1 = function () { calendar({ useLegacyApi: true, monthsAbbr: {} }) };
-    var customCalendar2 = function () { calendar({ useLegacyApi: true, monthsAbbr: 1 }) };
+    var customCalendar1 = function () { calendar({ monthsAbbr: {} }) };
+    var customCalendar2 = function () { calendar({ monthsAbbr: 1 }) };
 
     expect(customCalendar1).to.throw(InvalidMonthsAbbrError);
     expect(customCalendar2).to.throw(InvalidMonthsAbbrError);
   });
 
   it('throws InvalidMonthsAbbrError when config.monthsAbbr array is empty', function() {
-    var customCalendar = function () { calendar({ useLegacyApi: true, monthsAbbr: [] }) };
+    var customCalendar = function () { calendar({ monthsAbbr: [] }) };
 
     expect(customCalendar).to.throw(InvalidMonthsAbbrError);
   });
 
   it('throws InvalidMonthsAbbrError when config.monthsAbbr array length is < 12', function() {
     var customCalendar = function () {
-      calendar({ useLegacyApi: true, monthsAbbr: [ 'Jan' ] })
+      calendar({ monthsAbbr: [ 'Jan' ] })
     };
 
     expect(customCalendar).to.throw(InvalidMonthsAbbrError);
@@ -134,7 +134,7 @@ describe('#calendar()', function() {
 
   it('throws InvalidMonthsAbbrError when config.monthsAbbr array length is > 12', function() {
     var customCalendar = function () {
-      calendar({ useLegacyApi: true, monthsAbbr: [
+      calendar({ monthsAbbr: [
         'a',
         'b',
         'c',
@@ -157,13 +157,13 @@ describe('#calendar()', function() {
 
 describe('#months()', function() {
   it('has 12 months', function() {
-    var months = calendar({ useLegacyApi: true }).months();
+    var months = calendar().months();
 
     expect(months.length).to.equal(12);
   });
 
   it('returns all the months names', function() {
-    var months = calendar({ useLegacyApi: true }).months();
+    var months = calendar().months();
 
     expect(months).to.eql([
       'January',
@@ -184,7 +184,7 @@ describe('#months()', function() {
 
 describe('#monthsAbbr()', function() {
   it('returns all months names abbreviated', function() {
-    var monthsAbbr = calendar({ useLegacyApi: true }).monthsAbbr();
+    var monthsAbbr = calendar().monthsAbbr();
 
     expect(monthsAbbr).to.eql([
       'Jan',
@@ -205,19 +205,19 @@ describe('#monthsAbbr()', function() {
 
 describe('#years()', function() {
   it('throws a RangeError if the first argument is greater than the second', function() {
-    var years = function () { calendar({ useLegacyApi: true }).years(2016, 2014); }
+    var years = function () { calendar().years(2016, 2014); }
 
     expect(years).to.throw(RangeError);
   });
 
   it('returns an array with 6 items when arguments are (2010, 2015)', function() {
-    var years = calendar({ useLegacyApi: true }).years(2010, 2015);
+    var years = calendar().years(2010, 2015);
 
     expect(years.length).to.equal(6);
   });
 
   it('returns [ "2010", "2011", "2012" ] when arguments are (2010, 2012)', function() {
-    var years = calendar({ useLegacyApi: true }).years(2010, 2012);
+    var years = calendar().years(2010, 2012);
 
     expect(years).to.eql([
       '2010',
@@ -229,13 +229,13 @@ describe('#years()', function() {
 
 describe('#yearsAbbr()', function() {
   it('throws a RangeError if the first argument is greater than the second', function() {
-    var yearsAbbr = function() { calendar({ useLegacyApi: true }).yearsAbbr(2016, 2014); }
+    var yearsAbbr = function() { calendar().yearsAbbr(2016, 2014); }
 
     expect(yearsAbbr).to.throw(RangeError);
   });
 
   it('returns [ "99", "00", "01" ] when arguments are (2999, 3001)', function() {
-    var years = calendar({ useLegacyApi: true }).yearsAbbr(2999, 3001);
+    var years = calendar().yearsAbbr(2999, 3001);
 
     expect(years).to.eql([
       '99',
@@ -245,7 +245,7 @@ describe('#yearsAbbr()', function() {
   });
 
   it('accepts only one argument', function() {
-    var year = calendar({ useLegacyApi: true }).yearsAbbr(2016);
+    var year = calendar().yearsAbbr(2016);
 
     expect(year).to.equal('16');
   });
@@ -253,13 +253,13 @@ describe('#yearsAbbr()', function() {
 
 describe('#weekdays', function() {
   it('has 7 weekdays', function () {
-    var weekdays = calendar({ useLegacyApi: true }).weekdays();
+    var weekdays = calendar().weekdays();
 
     expect(weekdays.length).to.equal(7);
   });
 
   it('returns all weekdays names', function() {
-    var weekdays = calendar({ useLegacyApi: true }).weekdays();
+    var weekdays = calendar().weekdays();
 
     expect(weekdays).to.eql([
       'Sunday',
@@ -275,7 +275,7 @@ describe('#weekdays', function() {
 
 describe('#weekdaysAbbr', function() {
   it('returns all months names abbreviated', function() {
-    var weekdaysAbbr = calendar({ useLegacyApi: true }).weekdaysAbbr();
+    var weekdaysAbbr = calendar().weekdaysAbbr();
 
     expect(weekdaysAbbr).to.eql([
       'Sun',
@@ -291,58 +291,58 @@ describe('#weekdaysAbbr', function() {
 
 describe('#of()', function() {
   it('throws InvalidMonthError when an invalid month is passed', function() {
-    var calendar1 = function () { calendar({ useLegacyApi: true }).of(2016, 12) };
+    var calendar1 = function () { calendar().of(2016, 12) };
 
     expect(calendar1).to.throw(InvalidMonthError);
   });
 
   it('accepts only numbers as arguments', function() {
-    var calendar1 = function() { calendar({ useLegacyApi: true }).of('2016', '11') };
+    var calendar1 = function() { calendar().of('2016', '11') };
 
     expect(calendar1).to.throw(Error);
   });
 
   it('returns the year and the yearAbbr', function() {
-    var calendar1 = calendar({ useLegacyApi: true }).of(2016, 0);
+    var calendar1 = calendar().of(2016, 0);
 
     expect(calendar1).to.have.property('year', '2016');
     expect(calendar1).to.have.property('yearAbbr', '16');
   });
 
   it('returns the month and the monthAbbr', function() {
-    var calendar1 = calendar({ useLegacyApi: true }).of(2016, 0);
+    var calendar1 = calendar().of(2016, 0);
 
     expect(calendar1).to.have.property('month', 'January');
     expect(calendar1).to.have.property('monthAbbr', 'Jan');
   });
 
   it('returns the weekdays and the weekdaysAbbr', function() {
-    var calendar1 = calendar({ useLegacyApi: true }).of(2016, 0);
+    var calendar1 = calendar().of(2016, 0);
 
     expect(calendar1.weekdays.length).to.equal(7);
     expect(calendar1.weekdaysAbbr.length).to.equal(7);
   });
 
   it('returns the number of days of the month', function() {
-    var calendar1 = calendar({ useLegacyApi: true }).of(2016, 0);
+    var calendar1 = calendar().of(2016, 0);
 
     expect(calendar1.days).to.equal(31);
   });
 
   it('returns the first weekday', function() {
-    var calendar1 = calendar({ useLegacyApi: true }).of(2016, 0);
+    var calendar1 = calendar().of(2016, 0);
 
     expect(calendar1.firstWeekday).to.equal(5);
   });
 
   it('returns the last weekday', function() {
-    var calendar1 = calendar({ useLegacyApi: true }).of(2016, 0);
+    var calendar1 = calendar().of(2016, 0);
 
     expect(calendar1.lastWeekday).to.equal(0);
   });
 
   it('returns the calendar as an array of weeks and days', function() {
-    var calendar1 = calendar({ useLegacyApi: true }).of(2016, 0);
+    var calendar1 = calendar().of(2016, 0);
     var expectedCalendar = [
       [  0,  0,  0,  0,  0,  1,  2 ],
       [  3,  4,  5,  6,  7,  8,  9 ],
@@ -353,5 +353,104 @@ describe('#of()', function() {
     ];
 
     expect(calendar1.calendar).to.eql(expectedCalendar);
+  });
+
+  it('transforms the data based on callback', function() {
+    function transformer(data) {
+      return {
+        test: true,
+      };
+    }
+
+    var calendarData = calendar().of(2017, 0, transformer);
+
+    expect(calendarData.test).to.equal(true);
+  });
+});
+
+describe('#detailed()', function() {
+  it('throws InvalidMonthError when an invalid month is passed', function() {
+    var calendar1 = function () { calendar().detailed(2016, 12) };
+
+    expect(calendar1).to.throw(InvalidMonthError);
+  });
+
+  it('accepts only numbers as arguments', function() {
+    var calendar1 = function() { calendar().detailed('2016', '11') };
+
+    expect(calendar1).to.throw(Error);
+  });
+
+  it('returns the year and the yearAbbr', function() {
+    var calendar1 = calendar().detailed(2016, 0);
+
+    expect(calendar1).to.have.property('year', '2016');
+    expect(calendar1).to.have.property('yearAbbr', '16');
+  });
+
+  it('returns the month and the monthAbbr', function() {
+    var calendar1 = calendar().detailed(2016, 0);
+
+    expect(calendar1).to.have.property('month', 'January');
+    expect(calendar1).to.have.property('monthAbbr', 'Jan');
+  });
+
+  it('returns the weekdays and the weekdaysAbbr', function() {
+    var calendar1 = calendar().detailed(2016, 0);
+
+    expect(calendar1.weekdays.length).to.equal(7);
+    expect(calendar1.weekdaysAbbr.length).to.equal(7);
+  });
+
+  it('returns the number of days of the month', function() {
+    var calendar1 = calendar().detailed(2016, 0);
+
+    expect(calendar1.days).to.equal(31);
+  });
+
+  it('returns the first weekday', function() {
+    var calendar1 = calendar().detailed(2016, 0);
+
+    expect(calendar1.firstWeekday).to.equal(5);
+  });
+
+  it('returns the last weekday', function() {
+    var calendar1 = calendar().detailed(2016, 0);
+
+    expect(calendar1.lastWeekday).to.equal(0);
+  });
+
+  it('returns the expected date descriptor object structure', function() {
+    var calendar1 = calendar().detailed(2016, 0);
+    var day = calendar1.calendar[0][0];
+
+    expect(day).to.have.all.keys(
+      'date',
+      'day',
+      'index',
+      'isInLastWeekOfPrimaryMonth',
+      'isInPrimaryMonth'
+    );
+
+    expect(day.date).to.be.a('date');
+    expect(day.day).to.be.a('number');
+    expect(day.index).to.have.all.keys('day', 'week');
+    expect(day.index.day).to.be.a('number');
+    expect(day.index.week).to.be.a('number');
+    expect(day.isInLastWeekOfPrimaryMonth).to.be.a('boolean');
+    expect(day.isInPrimaryMonth).to.be.a('boolean');
+  });
+
+  it('transforms each date descriptor object via callback', function() {
+    function dayTransformer(data, calendar) {
+      return {
+        weekday: calendar.weekdays[data.index.day]
+      };
+    }
+
+    var calendarData = calendar().detailed(2017, 0, dayTransformer);
+    var day = calendarData.calendar[0][0];
+
+    expect(day).to.deep.equal({weekday: 'Sunday'});
   });
 });
