@@ -161,7 +161,7 @@ module.exports = function(config) {
       var firstWeekday = new Date(year, month, 1).getDay();
       var lastWeekday = new Date(year, month, numberOfDays).getDay();
 
-      const data = {
+      var data = {
         year: year.toString(),
         yearAbbr: this.yearsAbbr(year),
         month: this.months()[month],
