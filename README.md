@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/igor-ribeiro/calendar-js.svg?style=svg)](https://circleci.com/gh/igor-ribeiro/calendar-js)
+
 # Calendar.js
 Pure JS calendar library
 ## Motivation
