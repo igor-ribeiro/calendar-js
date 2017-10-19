@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/igor-ribeiro/calendar-js.svg?style=svg)](https://circleci.com/gh/igor-ribeiro/calendar-js)
+[![CircleCI](https://circleci.com/gh/igor-ribeiro/calendar-js.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/igor-ribeiro/calendar-js)
 
 # Calendar.js
 Pure JS calendar library
