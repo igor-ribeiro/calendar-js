@@ -39,6 +39,10 @@ function generateAbbr(arr, len) {
   })
 }
 
+function createArray(length) {
+  return (new Array(length)).fill(1);
+}
+
 module.exports = function(config) {
   var abbrLengthWeek = (config && !isNaN(config.abbrWeek) && config.abbrWeek > 0) ? config.abbrWeek : 3;
   var abbrLengthMonth = (config && !isNaN(config.abbrMonth) && config.abbrMonth > 0) ? config.abbrMonth : 3;
@@ -132,8 +136,8 @@ module.exports = function(config) {
       var totalDaysOnWeek = 7;
       var lastDay = 0;
 
-      Array.from({ length: totalWeeks }).forEach(function (_, week) {
-        Array.from({ length: totalDaysOnWeek }).forEach(function (_, day) {
+      createArray(totalWeeks).forEach(function (_, week) {
+        createArray(totalDaysOnWeek).forEach(function (_, day) {
           var dayToAdd = 0;
 
           if (week === 0) {
@@ -176,7 +180,7 @@ module.exports = function(config) {
       var firstWeekday = new Date(year, month, 1).getDay();
       var lastWeekday = new Date(year, month, numberOfDays).getDay();
 
-      const data = {
+      var data = {
         year: year.toString(),
         yearAbbr: this.yearsAbbr(year),
         month: this.months()[month],

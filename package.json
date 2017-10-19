@@ -4,7 +4,8 @@
   "description": "Pure JS calendar generator",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -w --reporter spec"
+    "test": "mocha --reporter spec",
+    "test:watch": "mocha -w --reporter spec"
   },
   "repository": {
     "type": "git",
