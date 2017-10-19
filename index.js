@@ -35,6 +35,10 @@ function generateMonthsAbbr(months) {
   });
 }
 
+function createArray(length) {
+  return new Array(length).fill(1);
+}
+
 module.exports = function(config) {
   var _months = MONTHS;
   var _monthsAbbr = generateMonthsAbbr(MONTHS);
@@ -117,8 +121,8 @@ module.exports = function(config) {
       var totalDaysOnWeek = 7;
       var lastDay = 0;
 
-      Array.from({ length: totalWeeks }).forEach(function (_, week) {
-        Array.from({ length: totalDaysOnWeek }).forEach(function (_, day) {
+      createArray(totalWeeks).forEach(function (_, week) {
+        createArray(totalDaysOnWeek).forEach(function (_, day) {
           var dayToAdd = 0;
 
           if (week === 0) {
