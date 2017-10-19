@@ -36,7 +36,7 @@ function generateMonthsAbbr(months) {
 }
 
 function createArray(length) {
-  return new Array(length).fill(1);
+  return (new Array(length)).fill(1);
 }
 
 module.exports = function(config) {
