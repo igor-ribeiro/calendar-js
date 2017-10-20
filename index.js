@@ -4,6 +4,10 @@ var InvalidMonthError = require('./src/errors/InvalidMonthError');
 var InvalidMonthsError = require('./src/errors/InvalidMonthsError');
 var InvalidMonthsAbbrError = require('./src/errors/InvalidMonthsAbbrError');
 
+var InvalidWeekdayError = require('./src/errors/InvalidWeekdayError');
+var InvalidWeekdaysError = require('./src/errors/InvalidWeekdaysError');
+var InvalidWeekdaysAbbrError = require('./src/errors/InvalidWeekdaysAbbrError');
+
 var MONTHS = [
   'January',
   'February',
@@ -29,39 +33,56 @@ var WEEKDAYS = [
   'Saturday',
 ];
 
-function generateMonthsAbbr(months) {
-  return months.map(function(month) {
-    return month.slice(0, 3);
-  });
+function generateAbbr(arr, len) {
+  return arr.map(function(item) {
+    return item.slice(0, len || 3);
+  })
+}
+
+function createArray(length) {
+  return (new Array(length)).fill(1);
 }
 
 module.exports = function(config) {
+  var abbrLengthWeek = (config && !isNaN(config.abbrWeek) && config.abbrWeek > 0) ? config.abbrWeek : 3;
+  var abbrLengthMonth = (config && !isNaN(config.abbrMonth) && config.abbrMonth > 0) ? config.abbrMonth : 3;
   var _months = MONTHS;
-  var _monthsAbbr = generateMonthsAbbr(MONTHS);
-  
-  if (config && config.months) {
-    if (! Array.isArray(config.months)) {
-      throw new InvalidMonthsError('Months array must have 12 values');
-    }
+  var _monthsAbbr = generateAbbr(MONTHS, abbrLengthMonth);
+  var _weekdays = WEEKDAYS;
+  var _weekdaysAbbr = generateAbbr(WEEKDAYS, abbrLengthWeek);
 
-    if (config.months.length !== 12) {
+  if (config && config.months) {
+    if (!Array.isArray(config.months) || config.months.length !== 12) {
       throw new InvalidMonthsError('Months array must have 12 values');
     }
 
     _months = config.months;
-    _monthsAbbr = generateMonthsAbbr(config.months);
+    _monthsAbbr = generateAbbr(config.months, abbrLengthMonth);
   }
 
   if (config && config.monthsAbbr) {
-    if (! Array.isArray(config.monthsAbbr)) {
-      throw new InvalidMonthsAbbrError('Months array must have 12 values');
-    }
-
-    if (config.monthsAbbr.length !== 12) {
+    if (!Array.isArray(config.monthsAbbr) || config.monthsAbbr.length !== 12) {
       throw new InvalidMonthsAbbrError('Months array must have 12 values');
     }
 
     _monthsAbbr = config.monthsAbbr;
+  }
+
+  if (config && config.weekdays) {
+    if (!Array.isArray(config.weekdays) || config.weekdays.length !== 7) {
+      throw new InvalidWeekdaysError('Weekdays array must have 7 values');
+    }
+
+    _weekdays = config.weekdays;
+    _weekdaysAbbr = generateAbbr(config.weekdays, abbrLengthWeek);
+  }
+
+  if (config && config.weekdaysAbbr) {
+    if (!Array.isArray(config.weekdaysAbbr) || config.weekdaysAbbr.length !== 7) {
+      throw new InvalidWeekdaysAbbrError('Weekdays array must have 7 values');
+    }
+
+    _weekdaysAbbr = config.weekdaysAbbr;
   }
 
   return {
@@ -101,13 +122,11 @@ module.exports = function(config) {
     },
 
     weekdays: function() {
-      return WEEKDAYS;
+      return _weekdays;
     },
 
     weekdaysAbbr: function() {
-      return this.weekdays().map(function(weekday) {
-        return weekday.slice(0, 3);
-      });
+      return _weekdaysAbbr;
     },
 
     generateCalendar: function(year, month, numberOfDays, firstWeekday, lastWeekday, dayTransformer, cbData) {
@@ -119,8 +138,8 @@ module.exports = function(config) {
       var lastWeek = totalWeeks - 1;
       var execCb = typeof dayTransformer === 'function';
       
-      Array.from({ length: totalWeeks }).forEach(function (_, week) {
-        Array.from({ length: totalDaysOnWeek }).forEach(function (_, day) {
+      createArray(totalWeeks).forEach(function (_, week) {
+        createArray(totalDaysOnWeek).forEach(function (_, day) {
           lastDay++;
 
           var date = new Date(year, month, lastDay);
@@ -178,7 +197,7 @@ module.exports = function(config) {
       var firstWeekday = new Date(year, month, 1).getDay();
       var lastWeekday = new Date(year, month, numberOfDays).getDay();
 
-      const data = {
+      var data = {
         year: year.toString(),
         yearAbbr: this.yearsAbbr(year),
         month: this.months()[month],

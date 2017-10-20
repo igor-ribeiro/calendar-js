@@ -5,6 +5,9 @@ var expect = require('chai').expect;
 var InvalidMonthError = require('./../src/errors/InvalidMonthError');
 var InvalidMonthsError = require('./../src/errors/InvalidMonthsError');
 var InvalidMonthsAbbrError = require('./../src/errors/InvalidMonthsAbbrError');
+var InvalidWeekdayError = require('./../src/errors/InvalidWeekdayError');
+var InvalidWeekdaysError = require('./../src/errors/InvalidWeekdaysError');
+var InvalidWeekdaysAbbrError = require('./../src/errors/InvalidWeekdaysAbbrError');
 var calendar = require('./../index');
 
 describe('#calendar()', function() {
@@ -87,6 +90,50 @@ describe('#calendar()', function() {
     };
 
     expect(customCalendar).to.throw(InvalidMonthsError);
+  });
+
+  it('throws InvalidWeekdaysError when config.weekdays is not an array', function() {
+    var customCalendar1 = function () { calendar({ weekdays: {} }) };
+    var customCalendar2 = function () { calendar({ weekdays: 1 }) };
+
+    expect(customCalendar1).to.throw(InvalidWeekdaysError);
+    expect(customCalendar2).to.throw(InvalidWeekdaysError);
+  });
+
+  it('throws InvalidWeekdaysError when config.weekdays array is empty', function() {
+    var customCalendar = function () { calendar({ weekdays: [] }) };
+
+    expect(customCalendar).to.throw(InvalidWeekdaysError);
+  });
+
+  it('throws InvalidWeekdaysError when config.weekdays array length is < 7', function() {
+    var customCalendar = function () {
+      calendar({ weekdays: [ 'Monday' ] })
+    };
+
+    expect(customCalendar).to.throw(InvalidWeekdaysError);
+  });
+
+  it('throws InvalidWeekdaysError when config.weekdays array length is > 7', function() {
+    var customCalendar = function () {
+      calendar({ weekdays: [
+        'a',
+        'b',
+        'c',
+        'd',
+        'e',
+        'f',
+        'g',
+        'h',
+        'i',
+        'j',
+        'k',
+        'l',
+        'm',
+      ]})
+    };
+
+    expect(customCalendar).to.throw(InvalidWeekdaysError);
   });
 
   it('sets monthsAbbr from config.monthsAbbr', function () {
@@ -274,7 +321,7 @@ describe('#weekdays', function() {
 });
 
 describe('#weekdaysAbbr', function() {
-  it('returns all months names abbreviated', function() {
+  it('returns all weekday names abbreviated', function() {
     var weekdaysAbbr = calendar().weekdaysAbbr();
 
     expect(weekdaysAbbr).to.eql([
@@ -285,6 +332,20 @@ describe('#weekdaysAbbr', function() {
       'Thu',
       'Fri',
       'Sat',
+    ]);
+  });
+
+  it('returns all weekdays names abbreviated with config.abbrWeek = 2', function() {
+    var weekdaysAbbr = calendar({ abbrWeek: 2 }).weekdaysAbbr();
+
+    expect(weekdaysAbbr).to.eql([
+      'Su',
+      'Mo',
+      'Tu',
+      'We',
+      'Th',
+      'Fr',
+      'Sa',
     ]);
   });
 });

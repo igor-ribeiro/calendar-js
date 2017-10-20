@@ -1,6 +1,9 @@
-# Calendar.js
+# Calendar.js [![CircleCI](https://circleci.com/gh/igor-ribeiro/calendar-js.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/igor-ribeiro/calendar-js)
+
 Pure JS calendar library
+
 ## Motivation
+
 I needed a date-picker component for a VueJS project, and I found it! But, one has too many dependencies, and the styles of others are too coupled with Bootstrap or Material Design or whatever.
 
 So I started by doing a simple calendar using MomentJS. By doing it I realized that a date-picker is a calendar with the option of selecting a date. With that in mind I realized that we need to calculate some things to render a calendar, like, the days in that month, in what weekday is the first and the last day, wich weekdays are empty in that month, etc. Then I concluded:
