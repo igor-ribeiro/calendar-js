@@ -1,14 +1,14 @@
 'use strict';
 
-var InvalidMonthError = require('./src/errors/InvalidMonthError');
-var InvalidMonthsError = require('./src/errors/InvalidMonthsError');
-var InvalidMonthsAbbrError = require('./src/errors/InvalidMonthsAbbrError');
+const InvalidMonthError = require('./src/errors/InvalidMonthError');
+const InvalidMonthsError = require('./src/errors/InvalidMonthsError');
+const InvalidMonthsAbbrError = require('./src/errors/InvalidMonthsAbbrError');
 
-var InvalidWeekdayError = require('./src/errors/InvalidWeekdayError');
-var InvalidWeekdaysError = require('./src/errors/InvalidWeekdaysError');
-var InvalidWeekdaysAbbrError = require('./src/errors/InvalidWeekdaysAbbrError');
+const InvalidWeekdayError = require('./src/errors/InvalidWeekdayError');
+const InvalidWeekdaysError = require('./src/errors/InvalidWeekdaysError');
+const InvalidWeekdaysAbbrError = require('./src/errors/InvalidWeekdaysAbbrError');
 
-var MONTHS = [
+const MONTHS = [
   'January',
   'February',
   'March',
@@ -23,7 +23,7 @@ var MONTHS = [
   'December',
 ];
 
-var WEEKDAYS = [
+const WEEKDAYS = [
   'Sunday',
   'Monday',
   'Tuesday',
@@ -44,12 +44,13 @@ function createArray(length) {
 }
 
 module.exports = function(config) {
-  var abbrLengthWeek = (config && !isNaN(config.abbrWeek) && config.abbrWeek > 0) ? config.abbrWeek : 3;
-  var abbrLengthMonth = (config && !isNaN(config.abbrMonth) && config.abbrMonth > 0) ? config.abbrMonth : 3;
-  var _months = MONTHS;
-  var _monthsAbbr = generateAbbr(MONTHS, abbrLengthMonth);
-  var _weekdays = WEEKDAYS;
-  var _weekdaysAbbr = generateAbbr(WEEKDAYS, abbrLengthWeek);
+  const abbrLengthWeek = (config && !isNaN(config.abbrWeek) && config.abbrWeek > 0) ? config.abbrWeek : 3;
+  const abbrLengthMonth = (config && !isNaN(config.abbrMonth) && config.abbrMonth > 0) ? config.abbrMonth : 3;
+
+  let _months = MONTHS;
+  let _monthsAbbr = generateAbbr(MONTHS, abbrLengthMonth);
+  let _weekdays = WEEKDAYS;
+  let _weekdaysAbbr = generateAbbr(WEEKDAYS, abbrLengthWeek);
 
   if (config && config.months) {
     if (!Array.isArray(config.months) || config.months.length !== 12) {
@@ -99,11 +100,11 @@ module.exports = function(config) {
         throw new RangeError('The first year argument cannot be greater than the second');
       }
 
-      var years = [ from.toString() ];
-      var totalYears = to - from + 1;
+      const years = [ from.toString() ];
+      const totalYears = to - from + 1;
 
       while (years.length < totalYears) {
-        var year = parseInt(years[years.length - 1], 10) + 1;
+        const year = parseInt(years[years.length - 1], 10) + 1;
 
         years.push(year.toString());
       }
@@ -112,7 +113,7 @@ module.exports = function(config) {
     },
 
     yearsAbbr: function(from, to) {
-      var years = this.years(from, to).map(function(year) {
+      const years = this.years(from, to).map(function(year) {
         return year.toString().substring(2);
       });
 
@@ -130,21 +131,22 @@ module.exports = function(config) {
     },
 
     generateCalendar: function(year, month, numberOfDays, firstWeekday, lastWeekday, dayTransformer, cbData) {
-      var calendar = [];
-      var weeks = [];
-      var totalWeeks = Math.ceil((numberOfDays + firstWeekday) / 7);
-      var totalDaysOnWeek = 7;
-      var lastDay = firstWeekday * -1;
-      var lastWeek = totalWeeks - 1;
-      var execCb = typeof dayTransformer === 'function';
+      const calendar = [];
+      const totalWeeks = Math.ceil((numberOfDays + firstWeekday) / 7);
+      const totalDaysOnWeek = 7;
+      const lastWeek = totalWeeks - 1;
+      const execCb = typeof dayTransformer === 'function';
+
+      let lastDay = firstWeekday * -1;
+      let weeks = [];
       
       createArray(totalWeeks).forEach(function (_, week) {
         createArray(totalDaysOnWeek).forEach(function (_, day) {
           lastDay++;
 
-          var date = new Date(year, month, lastDay);
+          const date = new Date(year, month, lastDay);
 
-          var data = {
+          let data = {
             date: date,
             day: date.getDate(),
             isInPrimaryMonth: date.getMonth() === month,
@@ -156,7 +158,8 @@ module.exports = function(config) {
           };
 
           if (execCb) {
-            var result = dayTransformer(data, cbData);
+            const result = dayTransformer(data, cbData);
+
             if (result !== undefined) {
               data = result;
             }
@@ -166,6 +169,7 @@ module.exports = function(config) {
         });
        
         calendar.push(weeks);
+
         weeks = [];
       });
 
@@ -193,11 +197,11 @@ module.exports = function(config) {
         throw new Error('Arguments should be numbers');
       }
 
-      var numberOfDays =  new Date(year, month + 1, 0).getDate();
-      var firstWeekday = new Date(year, month, 1).getDay();
-      var lastWeekday = new Date(year, month, numberOfDays).getDay();
+      const numberOfDays =  new Date(year, month + 1, 0).getDate();
+      const firstWeekday = new Date(year, month, 1).getDay();
+      const lastWeekday = new Date(year, month, numberOfDays).getDay();
 
-      var data = {
+      const data = {
         year: year.toString(),
         yearAbbr: this.yearsAbbr(year),
         month: this.months()[month],
@@ -209,7 +213,7 @@ module.exports = function(config) {
         lastWeekday: lastWeekday,
       };
 
-      var calendar = this.generateCalendar(year, month, numberOfDays, firstWeekday, lastWeekday, dayTransformer, data);
+      const calendar = this.generateCalendar(year, month, numberOfDays, firstWeekday, lastWeekday, dayTransformer, data);
 
       data.calendar = calendar;
 
