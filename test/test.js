@@ -428,3 +428,90 @@ describe('#of()', function() {
     expect(calendarData.test).to.equal(true);
   });
 });
+
+describe('#detailed()', function() {
+  it('throws InvalidMonthError when an invalid month is passed', function() {
+    var calendar1 = function () { calendar().detailed(2016, 12) };
+
+    expect(calendar1).to.throw(InvalidMonthError);
+  });
+
+  it('accepts only numbers as arguments', function() {
+    var calendar1 = function() { calendar().detailed('2016', '11') };
+
+    expect(calendar1).to.throw(Error);
+  });
+
+  it('returns the year and the yearAbbr', function() {
+    var calendar1 = calendar().detailed(2016, 0);
+
+    expect(calendar1).to.have.property('year', '2016');
+    expect(calendar1).to.have.property('yearAbbr', '16');
+  });
+
+  it('returns the month and the monthAbbr', function() {
+    var calendar1 = calendar().detailed(2016, 0);
+
+    expect(calendar1).to.have.property('month', 'January');
+    expect(calendar1).to.have.property('monthAbbr', 'Jan');
+  });
+
+  it('returns the weekdays and the weekdaysAbbr', function() {
+    var calendar1 = calendar().detailed(2016, 0);
+
+    expect(calendar1.weekdays.length).to.equal(7);
+    expect(calendar1.weekdaysAbbr.length).to.equal(7);
+  });
+
+  it('returns the number of days of the month', function() {
+    var calendar1 = calendar().detailed(2016, 0);
+
+    expect(calendar1.days).to.equal(31);
+  });
+
+  it('returns the first weekday', function() {
+    var calendar1 = calendar().detailed(2016, 0);
+
+    expect(calendar1.firstWeekday).to.equal(5);
+  });
+
+  it('returns the last weekday', function() {
+    var calendar1 = calendar().detailed(2016, 0);
+
+    expect(calendar1.lastWeekday).to.equal(0);
+  });
+
+  it('returns the expected date descriptor object structure', function() {
+    var calendar1 = calendar().detailed(2016, 0);
+    var day = calendar1.calendar[0][0];
+
+    expect(day).to.have.all.keys(
+      'date',
+      'day',
+      'index',
+      'isInLastWeekOfPrimaryMonth',
+      'isInPrimaryMonth'
+    );
+
+    expect(day.date).to.be.a('date');
+    expect(day.day).to.be.a('number');
+    expect(day.index).to.have.all.keys('day', 'week');
+    expect(day.index.day).to.be.a('number');
+    expect(day.index.week).to.be.a('number');
+    expect(day.isInLastWeekOfPrimaryMonth).to.be.a('boolean');
+    expect(day.isInPrimaryMonth).to.be.a('boolean');
+  });
+
+  it('transforms each date descriptor object via callback', function() {
+    function dayTransformer(data, calendar) {
+      return {
+        weekday: calendar.weekdays[data.index.day]
+      };
+    }
+
+    var calendarData = calendar().detailed(2017, 0, dayTransformer);
+    var day = calendarData.calendar[0][0];
+
+    expect(day).to.deep.equal({weekday: 'Sunday'});
+  });
+});

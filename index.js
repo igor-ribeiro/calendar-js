@@ -129,37 +129,42 @@ module.exports = function(config) {
       return _weekdaysAbbr;
     },
 
-    generateCalendar: function(numberOfDays, firstWeekday, lastWeekday) {
+    generateCalendar: function(year, month, numberOfDays, firstWeekday, lastWeekday, dayTransformer, cbData) {
       var calendar = [];
       var weeks = [];
       var totalWeeks = Math.ceil((numberOfDays + firstWeekday) / 7);
       var totalDaysOnWeek = 7;
-      var lastDay = 0;
-
+      var lastDay = firstWeekday * -1;
+      var lastWeek = totalWeeks - 1;
+      var execCb = typeof dayTransformer === 'function';
+      
       createArray(totalWeeks).forEach(function (_, week) {
         createArray(totalDaysOnWeek).forEach(function (_, day) {
-          var dayToAdd = 0;
+          lastDay++;
 
-          if (week === 0) {
-            // if it is the first week fill with '0' until the firstWeekday
-            if (day >= firstWeekday) {
-              lastDay++;
-              dayToAdd = lastDay;
+          var date = new Date(year, month, lastDay);
+
+          var data = {
+            date: date,
+            day: date.getDate(),
+            isInPrimaryMonth: date.getMonth() === month,
+            isInLastWeekOfPrimaryMonth: week === lastWeek,
+            index: {
+              day: day,
+              week: week
             }
-          } else if (week === totalWeeks.length - 1) {
-            // if it is the first week fill with '0' after the lastWeekday
-            if (day <= lastWeekday && lastDay < numberOfDays) {
-              lastDay++;
-              dayToAdd = lastDay;
+          };
+
+          if (execCb) {
+            var result = dayTransformer(data, cbData);
+            if (result !== undefined) {
+              data = result;
             }
-          } else if (lastDay < numberOfDays) {
-            lastDay++;
-            dayToAdd = lastDay;
           }
 
-          weeks.push(dayToAdd);
+          weeks.push(data);
         });
-
+       
         calendar.push(weeks);
         weeks = [];
       });
@@ -168,6 +173,18 @@ module.exports = function(config) {
     },
 
     of: function(year, month, transformer) {
+      const data = this.detailed(year, month, function(data) {
+        return data.isInPrimaryMonth ? data.day : 0;
+      });
+
+      if (typeof transformer === 'function') {
+        return transformer(data);
+      }
+
+      return data;
+    },
+
+    detailed: function(year, month, dayTransformer) {
       if (month < 0 || month > 11) {
         throw new InvalidMonthError('Month should be beetwen 0 and 11');
       }
@@ -190,12 +207,11 @@ module.exports = function(config) {
         days: numberOfDays,
         firstWeekday: firstWeekday,
         lastWeekday: lastWeekday,
-        calendar: this.generateCalendar(numberOfDays, firstWeekday, lastWeekday),
       };
 
-      if (typeof transformer === 'function') {
-        return transformer(data);
-      }
+      var calendar = this.generateCalendar(year, month, numberOfDays, firstWeekday, lastWeekday, dayTransformer, data);
+
+      data.calendar = calendar;
 
       return data;
     },
