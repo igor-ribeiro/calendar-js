@@ -23,6 +23,14 @@ That’s my goal.
 | weekdays     | Array with the weekdays names              |
 | weekdaysAbbr | Array with the weekdays names abbreviation |
 
+Usage:
+```js
+calendar({
+  months: [ 'Enero', 'Febrero', 'Marzo', ... ],
+  monthsAbbr: [ 'Ene', 'Feb', 'Mar', ... ],
+})
+```
+
 ### .years(from, to)
 Returns the years in range
 ```js
