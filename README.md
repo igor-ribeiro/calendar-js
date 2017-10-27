@@ -14,6 +14,14 @@ That’s my goal.
 
 ## API Usage
 
+### config
+
+| Option       | Description                                |
+| ------------ | ------------------------------------------ |
+| months       | Array with the months names                |
+| monthsAbbr   | Array with the months names abbreviation   |
+| weekdays     | Array with the weekdays names              |
+| weekdaysAbbr | Array with the weekdays names abbreviation |
 
 ### .years(from, to)
 Returns the years in range
