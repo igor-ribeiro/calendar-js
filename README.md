@@ -14,6 +14,22 @@ That’s my goal.
 
 ## API Usage
 
+### config
+
+| Option       | Description                                |
+| ------------ | ------------------------------------------ |
+| months       | Array with the months names                |
+| monthsAbbr   | Array with the months names abbreviation   |
+| weekdays     | Array with the weekdays names              |
+| weekdaysAbbr | Array with the weekdays names abbreviation |
+
+Usage:
+```js
+calendar({
+  months: [ 'Enero', 'Febrero', 'Marzo', ... ],
+  monthsAbbr: [ 'Ene', 'Feb', 'Mar', ... ],
+})
+```
 
 ### .years(from, to)
 Returns the years in range
