@@ -4,11 +4,18 @@ Pure JS calendar library
 
 ## Motivation
 
-I needed a date-picker component for a VueJS project, and I found it! But, one has too many dependencies, and the styles of others are too coupled with Bootstrap or Material Design or whatever.
+I needed a date-picker component for a VueJS project, and I found it! But, one
+has too many dependencies, and the styles of others are too coupled with
+Bootstrap or Material Design or whatever.
 
-So I started by doing a simple calendar using MomentJS. By doing it I realized that a date-picker is a calendar with the option of selecting a date. With that in mind I realized that we need to calculate some things to render a calendar, like, the days in that month, in what weekday is the first and the last day, wich weekdays are empty in that month, etc. Then I concluded:
+So I started by doing a simple calendar using MomentJS. By doing it I realized
+that a date-picker is a calendar with the option of selecting a date. With that
+in mind I realized that we need to calculate some things to render a calendar,
+like, the days in that month, in what weekday is the first and the last day,
+wich weekdays are empty in that month, etc. Then I concluded:
 
-> We can have a general library that calculates these things so we only need to render these information in any framework
+> We can have a general library that calculates these things so we only need to
+> render these information in any framework
 
 That’s my goal.
 
@@ -24,6 +31,7 @@ That’s my goal.
 | weekdaysAbbr | Array with the weekdays names abbreviation |
 
 Usage:
+
 ```js
 calendar({
   months: [ 'Enero', 'Febrero', 'Marzo', ... ],
@@ -32,32 +40,35 @@ calendar({
 ```
 
 ### .years(from, to)
-Returns the years in range
-```js
-calendar().years(2010, 2015)
 
-[ '2010', '2011', '2012', '2013', '2014', '2015' ]
+Returns the years in range
+
+```js
+calendar().years(2010, 2015)[('2010', '2011', '2012', '2013', '2014', '2015')];
 ```
 
 ### .yearsAbbr(from, to)
-Returns the years in range
-```js
-calendar().yearsAbbr(2010, 2015)
 
-[ '10', '11', '12', '13', '14', '15' ]
+Returns the years in range
+
+```js
+calendar().yearsAbbr(2010, 2015)[('10', '11', '12', '13', '14', '15')];
 ```
 
 ### .months()
+
 ```js
 [ 'January', 'February', 'March', 'April', ... ]
 ```
 
 ### .monthsAbbr()
+
 ```js
 [ 'Jan', 'Feb', 'Mar', 'Apr', ... ]
 ```
 
 ### .of(year, month[, transformer])
+
 ```js
 calendar().of(2016, 0)
 
@@ -82,10 +93,13 @@ calendar().of(2016, 0)
 }
 ```
 
-The transformer param is a function that receives the result of `.of` method so you can customize the output.
+The transformer param is a function that receives the result of `.of` method so
+you can customize the output.
 
 ### .detailed(year, month[, dayTransformer])
-Like `.of` but returns a 'date descriptor object' for each date instead of an integer.
+
+Like `.of` but returns a 'date descriptor object' for each date instead of an
+integer.
 
 ```js
 calendar().detailed(2017, 10)
@@ -160,16 +174,24 @@ calendar().detailed(2017, 10)
 }
 ```
 
-If you supply a `dayTransformer` callback, whatever is returned will be used in place of the default date descriptor object. The callback is supplied the standard date descriptor object as well as the remainder of the `.detailed` result set.
+If you supply a `dayTransformer` callback, whatever is returned will be used in
+place of the default date descriptor object. The callback is supplied the
+standard date descriptor object as well as the remainder of the `.detailed`
+result set.
 
-In this case, we'll add a few custom properties - `customFormat` and `weekday`. This way, anything that consumes this data can simply read these "pre-computed" properties.
+In this case, we'll add a few custom properties - `customFormat` and `weekday`.
+This way, anything that consumes this data can simply read these "pre-computed"
+properties.
 
 ```js
 var month = calendar().detailed(2017, 10, (data, calendar) => {
-  return Object.assign({
-    customFormat: someCustomFunction(data.date), // preformat date
-    weekday: calendar.weekdays[data.index.day] // pre-pluck the weekday
-  }, data);
+  return Object.assign(
+    {
+      customFormat: someCustomFunction(data.date), // preformat date
+      weekday: calendar.weekdays[data.index.day], // pre-pluck the weekday
+    },
+    data
+  );
 });
 ```
 
@@ -185,4 +207,13 @@ The resulting date descriptor objects will now look like this:
   isInLastWeekOfPrimaryMonth: false,
   index: { day: 0, week: 0 }
 }
+```
+
+### .validate(year, month, day)
+
+Returns if the date is valid
+
+```js
+calendar().validate(2017, 0, 1); // valid
+calendar().validate(2017, 1, 30); // invalid
 ```
