@@ -1,11 +1,11 @@
 {
   "name": "calendar-js",
-  "version": "1.3.2",
+  "version": "1.4.0",
   "description": "Pure JS calendar generator",
   "main": "index.js",
   "scripts": {
     "test": "mocha --reporter spec",
-    "test:watch": "mocha -w --reporter spec"
+    "test:watch": "mocha -w --reporter min"
   },
   "repository": {
     "type": "git",

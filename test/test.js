@@ -11,7 +11,7 @@ const InvalidWeekdaysAbbrError = require('./../src/errors/InvalidWeekdaysAbbrErr
 const calendar = require('./../index');
 
 describe('#calendar()', function() {
-  it('sets months and monthsAbbr from config.months', function () {
+  it('sets months and monthsAbbr from config.months', function() {
     const months = [
       'Janeiro',
       'Fevereiro',
@@ -49,94 +49,110 @@ describe('#calendar()', function() {
   });
 
   it('throws InvalidMonthsError when config.months is not an array', function() {
-    const customCalendar1 = function () { calendar({ months: {} }) };
-    const customCalendar2 = function () { calendar({ months: 1 }) };
+    const customCalendar1 = function() {
+      calendar({ months: {} });
+    };
+    const customCalendar2 = function() {
+      calendar({ months: 1 });
+    };
 
     expect(customCalendar1).to.throw(InvalidMonthsError);
     expect(customCalendar2).to.throw(InvalidMonthsError);
   });
 
   it('throws InvalidMonthsError when config.months array is empty', function() {
-    const customCalendar = function () { calendar({ months: [] }) };
+    const customCalendar = function() {
+      calendar({ months: [] });
+    };
 
     expect(customCalendar).to.throw(InvalidMonthsError);
   });
 
   it('throws InvalidMonthsError when config.months array length is < 12', function() {
-    const customCalendar = function () {
-      calendar({ months: [ 'January' ] })
+    const customCalendar = function() {
+      calendar({ months: ['January'] });
     };
 
     expect(customCalendar).to.throw(InvalidMonthsError);
   });
 
   it('throws InvalidMonthsError when config.months array length is > 12', function() {
-    const customCalendar = function () {
-      calendar({ months: [
-        'a',
-        'b',
-        'c',
-        'd',
-        'e',
-        'f',
-        'g',
-        'h',
-        'i',
-        'j',
-        'k',
-        'l',
-        'm',
-      ]})
+    const customCalendar = function() {
+      calendar({
+        months: [
+          'a',
+          'b',
+          'c',
+          'd',
+          'e',
+          'f',
+          'g',
+          'h',
+          'i',
+          'j',
+          'k',
+          'l',
+          'm',
+        ],
+      });
     };
 
     expect(customCalendar).to.throw(InvalidMonthsError);
   });
 
   it('throws InvalidWeekdaysError when config.weekdays is not an array', function() {
-    const customCalendar1 = function () { calendar({ weekdays: {} }) };
-    const customCalendar2 = function () { calendar({ weekdays: 1 }) };
+    const customCalendar1 = function() {
+      calendar({ weekdays: {} });
+    };
+    const customCalendar2 = function() {
+      calendar({ weekdays: 1 });
+    };
 
     expect(customCalendar1).to.throw(InvalidWeekdaysError);
     expect(customCalendar2).to.throw(InvalidWeekdaysError);
   });
 
   it('throws InvalidWeekdaysError when config.weekdays array is empty', function() {
-    const customCalendar = function () { calendar({ weekdays: [] }) };
+    const customCalendar = function() {
+      calendar({ weekdays: [] });
+    };
 
     expect(customCalendar).to.throw(InvalidWeekdaysError);
   });
 
   it('throws InvalidWeekdaysError when config.weekdays array length is < 7', function() {
-    const customCalendar = function () {
-      calendar({ weekdays: [ 'Monday' ] })
+    const customCalendar = function() {
+      calendar({ weekdays: ['Monday'] });
     };
 
     expect(customCalendar).to.throw(InvalidWeekdaysError);
   });
 
   it('throws InvalidWeekdaysError when config.weekdays array length is > 7', function() {
-    const customCalendar = function () {
-      calendar({ weekdays: [
-        'a',
-        'b',
-        'c',
-        'd',
-        'e',
-        'f',
-        'g',
-        'h',
-        'i',
-        'j',
-        'k',
-        'l',
-        'm',
-      ]})
+    const customCalendar = function() {
+      calendar({
+        weekdays: [
+          'a',
+          'b',
+          'c',
+          'd',
+          'e',
+          'f',
+          'g',
+          'h',
+          'i',
+          'j',
+          'k',
+          'l',
+          'm',
+        ],
+      });
     };
 
     expect(customCalendar).to.throw(InvalidWeekdaysError);
   });
 
-  it('sets monthsAbbr from config.monthsAbbr', function () {
+  it('sets monthsAbbr from config.monthsAbbr', function() {
     const monthsAbbr = [
       'JAN',
       'FEV',
@@ -158,44 +174,52 @@ describe('#calendar()', function() {
   });
 
   it('throws InvalidMonthsAbbrError when config.months is not an array', function() {
-    const customCalendar1 = function () { calendar({ monthsAbbr: {} }) };
-    const customCalendar2 = function () { calendar({ monthsAbbr: 1 }) };
+    const customCalendar1 = function() {
+      calendar({ monthsAbbr: {} });
+    };
+    const customCalendar2 = function() {
+      calendar({ monthsAbbr: 1 });
+    };
 
     expect(customCalendar1).to.throw(InvalidMonthsAbbrError);
     expect(customCalendar2).to.throw(InvalidMonthsAbbrError);
   });
 
   it('throws InvalidMonthsAbbrError when config.monthsAbbr array is empty', function() {
-    const customCalendar = function () { calendar({ monthsAbbr: [] }) };
+    const customCalendar = function() {
+      calendar({ monthsAbbr: [] });
+    };
 
     expect(customCalendar).to.throw(InvalidMonthsAbbrError);
   });
 
   it('throws InvalidMonthsAbbrError when config.monthsAbbr array length is < 12', function() {
-    const customCalendar = function () {
-      calendar({ monthsAbbr: [ 'Jan' ] })
+    const customCalendar = function() {
+      calendar({ monthsAbbr: ['Jan'] });
     };
 
     expect(customCalendar).to.throw(InvalidMonthsAbbrError);
   });
 
   it('throws InvalidMonthsAbbrError when config.monthsAbbr array length is > 12', function() {
-    const customCalendar = function () {
-      calendar({ monthsAbbr: [
-        'a',
-        'b',
-        'c',
-        'd',
-        'e',
-        'f',
-        'g',
-        'h',
-        'i',
-        'j',
-        'k',
-        'l',
-        'm',
-      ]})
+    const customCalendar = function() {
+      calendar({
+        monthsAbbr: [
+          'a',
+          'b',
+          'c',
+          'd',
+          'e',
+          'f',
+          'g',
+          'h',
+          'i',
+          'j',
+          'k',
+          'l',
+          'm',
+        ],
+      });
     };
 
     expect(customCalendar).to.throw(InvalidMonthsAbbrError);
@@ -226,7 +250,7 @@ describe('#months()', function() {
       'November',
       'December',
     ]);
-  })
+  });
 });
 
 describe('#monthsAbbr()', function() {
@@ -252,7 +276,9 @@ describe('#monthsAbbr()', function() {
 
 describe('#years()', function() {
   it('throws a RangeError if the first argument is greater than the second', function() {
-    const years = function () { calendar().years(2016, 2014); }
+    const years = function() {
+      calendar().years(2016, 2014);
+    };
 
     expect(years).to.throw(RangeError);
   });
@@ -266,17 +292,15 @@ describe('#years()', function() {
   it('returns [ "2010", "2011", "2012" ] when arguments are (2010, 2012)', function() {
     const years = calendar().years(2010, 2012);
 
-    expect(years).to.eql([
-      '2010',
-      '2011',
-      '2012',
-    ]);
+    expect(years).to.eql(['2010', '2011', '2012']);
   });
 });
 
 describe('#yearsAbbr()', function() {
   it('throws a RangeError if the first argument is greater than the second', function() {
-    const yearsAbbr = function() { calendar().yearsAbbr(2016, 2014); }
+    const yearsAbbr = function() {
+      calendar().yearsAbbr(2016, 2014);
+    };
 
     expect(yearsAbbr).to.throw(RangeError);
   });
@@ -284,11 +308,7 @@ describe('#yearsAbbr()', function() {
   it('returns [ "99", "00", "01" ] when arguments are (2999, 3001)', function() {
     const years = calendar().yearsAbbr(2999, 3001);
 
-    expect(years).to.eql([
-      '99',
-      '00',
-      '01',
-    ]);
+    expect(years).to.eql(['99', '00', '01']);
   });
 
   it('accepts only one argument', function() {
@@ -299,7 +319,7 @@ describe('#yearsAbbr()', function() {
 });
 
 describe('#weekdays', function() {
-  it('has 7 weekdays', function () {
+  it('has 7 weekdays', function() {
     const weekdays = calendar().weekdays();
 
     expect(weekdays.length).to.equal(7);
@@ -338,27 +358,23 @@ describe('#weekdaysAbbr', function() {
   it('returns all weekdays names abbreviated with config.abbrWeek = 2', function() {
     const weekdaysAbbr = calendar({ abbrWeek: 2 }).weekdaysAbbr();
 
-    expect(weekdaysAbbr).to.eql([
-      'Su',
-      'Mo',
-      'Tu',
-      'We',
-      'Th',
-      'Fr',
-      'Sa',
-    ]);
+    expect(weekdaysAbbr).to.eql(['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']);
   });
 });
 
 describe('#of()', function() {
   it('throws InvalidMonthError when an invalid month is passed', function() {
-    const calendar1 = function () { calendar().of(2016, 12) };
+    const calendar1 = function() {
+      calendar().of(2016, 12);
+    };
 
     expect(calendar1).to.throw(InvalidMonthError);
   });
 
   it('accepts only numbers as arguments', function() {
-    const calendar1 = function() { calendar().of('2016', '11') };
+    const calendar1 = function() {
+      calendar().of('2016', '11');
+    };
 
     expect(calendar1).to.throw(Error);
   });
@@ -405,12 +421,12 @@ describe('#of()', function() {
   it('returns the calendar as an array of weeks and days', function() {
     const calendar1 = calendar().of(2016, 0);
     const expectedCalendar = [
-      [  0,  0,  0,  0,  0,  1,  2 ],
-      [  3,  4,  5,  6,  7,  8,  9 ],
-      [ 10, 11, 12, 13, 14, 15, 16 ],
-      [ 17, 18, 19, 20, 21, 22, 23 ],
-      [ 24, 25, 26, 27, 28, 29, 30 ],
-      [ 31,  0,  0,  0,  0,  0,  0 ],
+      [0, 0, 0, 0, 0, 1, 2],
+      [3, 4, 5, 6, 7, 8, 9],
+      [10, 11, 12, 13, 14, 15, 16],
+      [17, 18, 19, 20, 21, 22, 23],
+      [24, 25, 26, 27, 28, 29, 30],
+      [31, 0, 0, 0, 0, 0, 0],
     ];
 
     expect(calendar1.calendar).to.eql(expectedCalendar);
@@ -431,13 +447,17 @@ describe('#of()', function() {
 
 describe('#detailed()', function() {
   it('throws InvalidMonthError when an invalid month is passed', function() {
-    const calendar1 = function () { calendar().detailed(2016, 12) };
+    const calendar1 = function() {
+      calendar().detailed(2016, 12);
+    };
 
     expect(calendar1).to.throw(InvalidMonthError);
   });
 
   it('accepts only numbers as arguments', function() {
-    const calendar1 = function() { calendar().detailed('2016', '11') };
+    const calendar1 = function() {
+      calendar().detailed('2016', '11');
+    };
 
     expect(calendar1).to.throw(Error);
   });
@@ -505,13 +525,27 @@ describe('#detailed()', function() {
   it('transforms each date descriptor object via callback', function() {
     function dayTransformer(data, calendar) {
       return {
-        weekday: calendar.weekdays[data.index.day]
+        weekday: calendar.weekdays[data.index.day],
       };
     }
 
     const calendarData = calendar().detailed(2017, 0, dayTransformer);
     const day = calendarData.calendar[0][0];
 
-    expect(day).to.deep.equal({weekday: 'Sunday'});
+    expect(day).to.deep.equal({ weekday: 'Sunday' });
+  });
+});
+
+describe('#validate()', () => {
+  it('returns true for a valid date', () => {
+    const isValid = calendar().validate(2017, 0, 1);
+
+    expect(isValid).to.be.true;
+  });
+
+  it('returns false for an invalid date', () => {
+    const isValid = calendar().validate(2017, 1, 29);
+
+    expect(isValid).to.be.false;
   });
 });
