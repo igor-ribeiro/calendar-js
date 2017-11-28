@@ -1,51 +1,57 @@
-'use strict';
+"use strict";
 
-const InvalidMonthError = require('./src/errors/InvalidMonthError');
-const InvalidMonthsError = require('./src/errors/InvalidMonthsError');
-const InvalidMonthsAbbrError = require('./src/errors/InvalidMonthsAbbrError');
+const InvalidMonthError = require("./src/errors/InvalidMonthError");
+const InvalidMonthsError = require("./src/errors/InvalidMonthsError");
+const InvalidMonthsAbbrError = require("./src/errors/InvalidMonthsAbbrError");
 
-const InvalidWeekdayError = require('./src/errors/InvalidWeekdayError');
-const InvalidWeekdaysError = require('./src/errors/InvalidWeekdaysError');
-const InvalidWeekdaysAbbrError = require('./src/errors/InvalidWeekdaysAbbrError');
+const InvalidWeekdayError = require("./src/errors/InvalidWeekdayError");
+const InvalidWeekdaysError = require("./src/errors/InvalidWeekdaysError");
+const InvalidWeekdaysAbbrError = require("./src/errors/InvalidWeekdaysAbbrError");
 
 const MONTHS = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
 ];
 
 const WEEKDAYS = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday"
 ];
 
 function generateAbbr(arr, len) {
   return arr.map(function(item) {
     return item.slice(0, len || 3);
-  })
+  });
 }
 
 function createArray(length) {
-  return (new Array(length)).fill(1);
+  return new Array(length).fill(1);
 }
 
-module.exports = function(config) {
-  const abbrLengthWeek = (config && !isNaN(config.abbrWeek) && config.abbrWeek > 0) ? config.abbrWeek : 3;
-  const abbrLengthMonth = (config && !isNaN(config.abbrMonth) && config.abbrMonth > 0) ? config.abbrMonth : 3;
+function calendar(config) {
+  const abbrLengthWeek =
+    config && !isNaN(config.abbrWeek) && config.abbrWeek > 0
+      ? config.abbrWeek
+      : 3;
+  const abbrLengthMonth =
+    config && !isNaN(config.abbrMonth) && config.abbrMonth > 0
+      ? config.abbrMonth
+      : 3;
 
   let _months = MONTHS;
   let _monthsAbbr = generateAbbr(MONTHS, abbrLengthMonth);
@@ -54,7 +60,7 @@ module.exports = function(config) {
 
   if (config && config.months) {
     if (!Array.isArray(config.months) || config.months.length !== 12) {
-      throw new InvalidMonthsError('Months array must have 12 values');
+      throw new InvalidMonthsError("Months array must have 12 values");
     }
 
     _months = config.months;
@@ -63,7 +69,7 @@ module.exports = function(config) {
 
   if (config && config.monthsAbbr) {
     if (!Array.isArray(config.monthsAbbr) || config.monthsAbbr.length !== 12) {
-      throw new InvalidMonthsAbbrError('Months array must have 12 values');
+      throw new InvalidMonthsAbbrError("Months array must have 12 values");
     }
 
     _monthsAbbr = config.monthsAbbr;
@@ -71,7 +77,7 @@ module.exports = function(config) {
 
   if (config && config.weekdays) {
     if (!Array.isArray(config.weekdays) || config.weekdays.length !== 7) {
-      throw new InvalidWeekdaysError('Weekdays array must have 7 values');
+      throw new InvalidWeekdaysError("Weekdays array must have 7 values");
     }
 
     _weekdays = config.weekdays;
@@ -79,8 +85,11 @@ module.exports = function(config) {
   }
 
   if (config && config.weekdaysAbbr) {
-    if (!Array.isArray(config.weekdaysAbbr) || config.weekdaysAbbr.length !== 7) {
-      throw new InvalidWeekdaysAbbrError('Weekdays array must have 7 values');
+    if (
+      !Array.isArray(config.weekdaysAbbr) ||
+      config.weekdaysAbbr.length !== 7
+    ) {
+      throw new InvalidWeekdaysAbbrError("Weekdays array must have 7 values");
     }
 
     _weekdaysAbbr = config.weekdaysAbbr;
@@ -97,10 +106,12 @@ module.exports = function(config) {
 
     years: function(from, to) {
       if (from > to) {
-        throw new RangeError('The first year argument cannot be greater than the second');
+        throw new RangeError(
+          "The first year argument cannot be greater than the second"
+        );
       }
 
-      const years = [ from.toString() ];
+      const years = [from.toString()];
       const totalYears = to - from + 1;
 
       while (years.length < totalYears) {
@@ -117,9 +128,7 @@ module.exports = function(config) {
         return year.toString().substring(2);
       });
 
-      return (years.length > 1)
-        ? years
-        : years[0];
+      return years.length > 1 ? years : years[0];
     },
 
     weekdays: function() {
@@ -130,18 +139,26 @@ module.exports = function(config) {
       return _weekdaysAbbr;
     },
 
-    generateCalendar: function(year, month, numberOfDays, firstWeekday, lastWeekday, dayTransformer, cbData) {
+    generateCalendar: function(
+      year,
+      month,
+      numberOfDays,
+      firstWeekday,
+      lastWeekday,
+      dayTransformer,
+      cbData
+    ) {
       const calendar = [];
       const totalWeeks = Math.ceil((numberOfDays + firstWeekday) / 7);
       const totalDaysOnWeek = 7;
       const lastWeek = totalWeeks - 1;
-      const execCb = typeof dayTransformer === 'function';
+      const execCb = typeof dayTransformer === "function";
 
       let lastDay = firstWeekday * -1;
       let weeks = [];
-      
-      createArray(totalWeeks).forEach(function (_, week) {
-        createArray(totalDaysOnWeek).forEach(function (_, day) {
+
+      createArray(totalWeeks).forEach(function(_, week) {
+        createArray(totalDaysOnWeek).forEach(function(_, day) {
           lastDay++;
 
           const date = new Date(year, month, lastDay);
@@ -167,7 +184,7 @@ module.exports = function(config) {
 
           weeks.push(data);
         });
-       
+
         calendar.push(weeks);
 
         weeks = [];
@@ -181,7 +198,7 @@ module.exports = function(config) {
         return data.isInPrimaryMonth ? data.day : 0;
       });
 
-      if (typeof transformer === 'function') {
+      if (typeof transformer === "function") {
         return transformer(data);
       }
 
@@ -190,14 +207,14 @@ module.exports = function(config) {
 
     detailed: function(year, month, dayTransformer) {
       if (month < 0 || month > 11) {
-        throw new InvalidMonthError('Month should be beetwen 0 and 11');
+        throw new InvalidMonthError("Month should be beetwen 0 and 11");
       }
 
-      if (typeof year !== 'number' || typeof month !== 'number') {
-        throw new Error('Arguments should be numbers');
+      if (typeof year !== "number" || typeof month !== "number") {
+        throw new Error("Arguments should be numbers");
       }
 
-      const numberOfDays =  new Date(year, month + 1, 0).getDate();
+      const numberOfDays = new Date(year, month + 1, 0).getDate();
       const firstWeekday = new Date(year, month, 1).getDay();
       const lastWeekday = new Date(year, month, numberOfDays).getDay();
 
@@ -210,14 +227,34 @@ module.exports = function(config) {
         weekdaysAbbr: this.weekdaysAbbr(),
         days: numberOfDays,
         firstWeekday: firstWeekday,
-        lastWeekday: lastWeekday,
+        lastWeekday: lastWeekday
       };
 
-      const calendar = this.generateCalendar(year, month, numberOfDays, firstWeekday, lastWeekday, dayTransformer, data);
+      const calendar = this.generateCalendar(
+        year,
+        month,
+        numberOfDays,
+        firstWeekday,
+        lastWeekday,
+        dayTransformer,
+        data
+      );
 
       data.calendar = calendar;
 
       return data;
     },
+
+    validate: function(year, month, day) {
+      const date = new Date(year, month, day);
+
+      return (
+        date.getFullYear() === year &&
+        date.getMonth() === month &&
+        date.getDate() === day
+      );
+    }
   };
-};
+}
+
+module.exports = calendar;
