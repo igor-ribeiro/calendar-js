@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Use example</title>
+</head>
+<body>
+
+  <div id="years-container"></div>
+
+  <a href="https://github.com/igor-ribeiro/calendar-js">Link to github</a>
+
+  <script src="calendar.js"></script>
+  <script>
+    const years = calendarjs().years(2010, 2020);
+
+    let yearsContainer = document.getElementById('years-container');
+
+    yearsContainer.innerHTML = `<h2>Years</h2>
+                                <ul>
+                                  ${years
+                                      .map( year => `<li>${year}</li>` )
+                                      .join('')}
+                                </ul>`;
+
+  </script>
+</body>
+</html>

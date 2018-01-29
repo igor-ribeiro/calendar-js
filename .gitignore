@@ -39,3 +39,5 @@ jspm_packages
 # Vim temp files
 *.swp
 *.swo
+
+dist/*.js
