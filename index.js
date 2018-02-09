@@ -40,7 +40,13 @@ function generateAbbr(arr, len) {
 }
 
 function createArray(length) {
-  return new Array(length).fill(1);
+  var a = [];
+
+  for (var i = 0; i < length; i++) {
+    a.push(1);
+  }
+
+  return a;
 }
 
 function calendar(config) {
