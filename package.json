@@ -1,6 +1,6 @@
 {
   "name": "calendar-js",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "Pure JS calendar generator",
   "main": "index.js",
   "scripts": {
