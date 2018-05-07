@@ -220,9 +220,9 @@ function calendar(config) {
         throw new Error('Arguments should be numbers');
       }
 
-      var startWeekMonday = config.startWeek ? 0 : 1;
+      var startWeekMonday = config.startWeekMonday ? 0 : 1;
       var numberOfDays = new Date(year, month + 1, 0).getDate();
-      var firstWeekday = new Date(year, month, startWeek).getDay();
+      var firstWeekday = new Date(year, month, startWeekMonday).getDay();
       var lastWeekday = new Date(year, month, numberOfDays).getDay();
 
       var data = {
