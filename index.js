@@ -7,6 +7,7 @@ var InvalidMonthsAbbrError = require('./src/errors/InvalidMonthsAbbrError');
 var InvalidWeekdayError = require('./src/errors/InvalidWeekdayError');
 var InvalidWeekdaysError = require('./src/errors/InvalidWeekdaysError');
 var InvalidWeekdaysAbbrError = require('./src/errors/InvalidWeekdaysAbbrError');
+var InvalidStartWeekError = require('./src/errors/InvalidStartWeekError');
 
 var MONTHS = [
   'January',
@@ -219,9 +220,39 @@ function calendar(config) {
       if (typeof year !== 'number' || typeof month !== 'number') {
         throw new Error('Arguments should be numbers');
       }
-      var startWeekMonday = config && config.startWeekMonday ? 0 : 1;
+      var startWeek = 1;
+      if (config && config.startWeek) {
+        switch (config.startWeek.toLocaleLowerCase()) {
+          case 'sunday':
+            startWeek = 1;
+            break;
+          case 'monday':
+            startWeek = 0;
+            break;
+          case 'tuesday':
+            startWeek = -1;
+            break;
+          case 'wednesday':
+            startWeek = -2;
+            break;
+          case 'thursday':
+            startWeek = -3;
+            break;
+          case 'friday':
+            startWeek = -4;
+            break;
+          case 'saturday':
+            startWeek = -5;
+            break;
+          default:
+            throw new InvalidStartWeekError(
+              'Enter the correct day of the week'
+            );
+            break;
+        }
+      }
       var numberOfDays = new Date(year, month + 1, 0).getDate();
-      var firstWeekday = new Date(year, month, startWeekMonday).getDay();
+      var firstWeekday = new Date(year, month, startWeek).getDay();
       var lastWeekday = new Date(year, month, numberOfDays).getDay();
 
       var data = {
