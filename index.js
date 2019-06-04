@@ -155,7 +155,7 @@ function calendar(config) {
       cbData
     ) {
       var calendar = [];
-      var totalWeeks = Math.ceil((numberOfDays + firstWeekday) / 7);
+      var totalWeeks = 6;
       var totalDaysOnWeek = 7;
       var lastWeek = totalWeeks - 1;
       var execCb = typeof dayTransformer === 'function';
