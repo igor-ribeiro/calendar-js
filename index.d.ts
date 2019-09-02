@@ -13,7 +13,7 @@ interface CalendarType {
   days: number
   firstWeekday: number
   lastWeekday: number
-  calendar: number[][]
+  calendar: any[][]
 }
 
 interface CalendarJsType {
@@ -26,6 +26,7 @@ interface CalendarJsType {
   yearsAbbr(from: number, to: number): string[]
   generateCalendar(numberOfDays: number, firstWeekday: number, lastWeekday: number): number[][]
   of(year: number, month: number): CalendarType
+  detailed(year: number, month: number): CalendarType
 }
 
 declare module 'calendar-js' {
