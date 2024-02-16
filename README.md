@@ -1,4 +1,4 @@
-# Calendar.js [![CircleCI](https://circleci.com/gh/igor-ribeiro/calendar-js.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/igor-ribeiro/calendar-js)
+# BOBCalendar.js [![CircleCI](https://circleci.com/gh/igor-ribeiro/calendar-js.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/igor-ribeiro/calendar-js)
 
 Pure JS calendar library
 
